@@ -3,5 +3,6 @@ Component({
     properties: {
         data: Object
     }
+
     
 })
