@@ -11,8 +11,11 @@
         }
         .item {
           height: 100%;
-          border-radius: 60px;
-          background: pink;
+          display: flex;
+          align-items: center;
+          
+          // border-radius: 60px;
+          // background: pink;
           flex-shrink: 0;
         }
     }

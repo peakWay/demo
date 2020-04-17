@@ -40,7 +40,7 @@ Component({
     
             console.log('touchmove', e.touches[0].pageX - this.startX)
             this.setData({
-                offsetX: diff * 1.8
+                offsetX: diff * 2
             })
         },
     

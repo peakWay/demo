@@ -12,7 +12,7 @@ Page({
                 age: 20,
                 star: '处女座',
                 city: '杭州',
-                countdown: '2.20.19'
+                countdown: '2.20.19',
             },
             {
                 avatar: 'https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG',
@@ -43,14 +43,47 @@ Page({
         transition: false,
         minMoveDistance: 60,
 
-        diffWidth: 300 - 120
+        diffWidth: 300 - 120,
+
+        visible: false
     },
 
     startX: null,
     startX1: null,
     
     onLoad () {
-
+        let slideColors = [
+            {
+                color: '#CABCFF',
+                background: '#D0C9EB'
+            },
+            {
+                color: '#76D8D8',
+                background: '#ABEBEB'
+            },
+            {
+                color: '#FFB079',
+                background: '#F7CFB3'
+            },
+            {
+                color: '#FFADD5',
+                background: '#FDCBE4'
+            },
+            {
+                color: '#93CEF2',
+                background: '#CBEBFF'
+            }
+        ]
+        this.setData({
+            imgUrls: this.data.imgUrls.map((item, index) => {
+                return {
+                    ...item, 
+                    ...slideColors[index % slideColors.length]
+                }
+            }),
+            visible: true
+        })
+        console.log(this.data.imgUrls)
     },
 
     handleSwiperChange (e) {

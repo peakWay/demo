@@ -28,7 +28,7 @@
     </view>
 
     <view class="swiper_wrap" 
-        style="height: 240px;"
+        style="height: 120px;"
         bindtouchstart="onTouchStart1" 
         bindtouchmove="onTouchMove1" 
         bindtouchend="onTouchEnd1"
@@ -50,7 +50,7 @@
         </view>
     </view>
 
-    <slide-list list="{{ imgUrls }}" open-width="300" close-width="120" min-move-distance="60" height="100" prev-margin="20">
+    <slide-list wx:if="{{ visible }}" list="{{ imgUrls }}" open-width="522" close-width="138" min-move-distance="120" height="200" prev-margin="20">
         
     </slide-list>
     

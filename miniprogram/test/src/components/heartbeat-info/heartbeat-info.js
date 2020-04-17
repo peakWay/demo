@@ -1,10 +1,7 @@
 
 Component({
     properties: {
-        data: Object
-    },
-
-    methods: {
-
+        data: Object,
+        open: Boolean
     }
 })

@@ -18,7 +18,7 @@
                 data-current="{{ index }}"
                 bindtap="handleChangeItemByIndex"
             >
-                
+                <heartbeat-info data="{{ item }}" open="{{ currentItem == index }}" style="display: block;width: 100%;"></heartbeat-info>
             </view>
         </block>
     </view>
