@@ -1,0 +1,25 @@
+
+<view 
+    wx:if="{{ visible }}"
+    class="slide-list" 
+    style="height: {{ height }}rpx;"
+    bindtouchstart="onTouchStart" 
+    bindtouchmove="onTouchMove" 
+    bindtouchend="onTouchEnd"
+>
+    <view 
+        class="listview {{ transition ? 'transition': '' }}" 
+        style="transform: translateX({{ -currentItem * (openWidth + prevMargin) + offsetX }}rpx);"
+    >
+        <block wx:for="{{ list }}" wx:key="index">
+            <view 
+                class="item"
+                style="width: {{ offsetX <= 0 ? ( index <= currentItem || index <= currentItem - (offsetX / diffWidth | 0) ? openWidth : index == currentItem -(offsetX / diffWidth | 0) + 1 ? closeWidth - offsetX % diffWidth : closeWidth ) : ( index > currentItem || index > currentItem - (offsetX / diffWidth | 0) ? closeWidth : index == currentItem - (offsetX / diffWidth | 0) && currentItem !== 0 ? openWidth - offsetX % diffWidth : openWidth )  }}rpx;margin-left: {{ prevMargin }}rpx;"
+                data-current="{{ index }}"
+                bindtap="handleChangeItemByIndex"
+            >
+                
+            </view>
+        </block>
+    </view>
+</view>

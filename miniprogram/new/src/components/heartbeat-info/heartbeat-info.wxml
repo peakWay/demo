@@ -1,0 +1,20 @@
+
+<view class="heartbeat-info">
+    <image class="avatar" src="{{ data.src }}" mode="aspectFill" />
+    <view class="base">
+        <view class="nickname">{{ data.nickname }}的小心动</view>
+        <view class="main">
+            <view class="sex">
+                {{ data.sex }}
+            </view>
+            <text wx:if="{{ data.age }}" class="age">{{ data.age }}</text>
+            <view wx:if="{{ data.age }}" class="dot"></view>
+            <text wx:if="{{ data.star }}" class="star">{{ data.star }}</text>
+            <view wx:if="{{ data.city }}" class="dot"></view>
+            <text class="city">{{ data.city }}</text>
+        </view>
+        <view class="time">
+            {{ data.time }}
+        </view>
+    </view>
+</view>

@@ -1,0 +1,19 @@
+
+
+.slide-list {
+    overflow: hidden;
+    .listview {
+        display: flex;
+        flex-wrap: nowrap;
+        height: 100%;
+        &.transition {
+          transition: transform .3s ease;
+        }
+        .item {
+          height: 100%;
+          border-radius: 60px;
+          background: pink;
+          flex-shrink: 0;
+        }
+    }
+}

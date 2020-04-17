@@ -1,0 +1,46 @@
+{
+  "scripts": {
+    "build": "npm run clean && cross-env NODE_ENV=production gulp build",
+    "build_keep": "cross-env NODE_ENV=production gulp build",
+    "start": "npm run clean && cross-env NODE_ENV=development gulp build",
+    "start_keep": "cross-env NODE_ENV=development gulp build",
+    "release": "npm run clean && cross-env NODE_ENV=production CUSTOM_ENV=release gulp build",
+    "release_keep": "cross-env NODE_ENV=production CUSTOM_ENV=release gulp build",
+    "local": "npm run clean && cross-env NODE_ENV=development CUSTOM_ENV=local gulp build",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^5.2.0",
+    "extend": "^3.0.2",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-batch": "^1.0.5",
+    "gulp-changed": "^3.2.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-px2rpx": "^0.2.2",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-typescript": "^5.0.1",
+    "gulp-watch": "^5.0.1",
+    "node-sass": "^4.9.2",
+    "rimraf": "^2.6.2",
+    "run-sequence": "^2.2.1",
+    "through2": "^2.0.3",
+    "typescript": "^3.3.4000",
+    "webpack": "^4.16.5",
+    "webpack-stream": "^5.1.1"
+  },
+  "dependencies": {
+    "async-validator": "^1.10.1",
+    "dayjs": "^1.7.5",
+    "node-sass": "^4.10.0"
+  }
+}
