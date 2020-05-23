@@ -1,0 +1,177 @@
+
+$fixed-zIndex: 5000;
+$mask-background: rgba(0, 0, 0, .8);
+
+/* flex */
+@mixin flex {
+    display: flex;
+}
+
+@mixin align-items($value: center) {
+    align-items: $value;
+}
+
+@mixin justify-content($value: center) {
+    justify-content: $value;
+}
+
+@mixin flex-direction($value: column) {
+    flex-direction: $value;
+}
+
+@mixin flex-wrap($value: wrap) {
+    flex-wrap: wrap;
+}
+
+@mixin flex-cross-center {
+    @include flex;
+    @include align-items;
+}
+
+@mixin flex-main-center {
+    @include flex;
+    @include justify-content;
+}
+
+@mixin flex-main-between($cross: center) {
+    @include flex;
+    @include justify-content(space-between);
+    @include align-items($cross);
+}
+
+@mixin flex-whole-center {
+    @include flex;
+    @include align-items;
+    @include justify-content;
+}
+
+@mixin flex-column{
+    @include flex;
+    @include flex-direction;
+}
+
+@mixin flex-column-cross-center {
+    @include flex-direction;
+    @include flex-cross-center;
+}
+
+@mixin flex-column-main-center {
+    @include flex-direction;
+    @include flex-main-center;
+}
+
+@mixin flex-column-main-between($cross: center) {
+    @include flex-direction;
+    @include flex-main-between($cross);
+}
+
+@mixin flex-column-whole-center {
+    @include flex;
+    @include flex-direction;
+    @include align-items;
+    @include justify-content;
+}
+
+@mixin flex-wrap-center {
+    @include flex;
+    @include flex-wrap;
+    @content;
+    align-content: center;
+}
+/* flex */
+
+/* position */
+@mixin position($value: relative) {
+    position: $value;
+}
+/* position */
+
+/* transform居中 */
+@mixin transform-horizontal-center {
+    @include position(absolute);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@mixin transform-vertical-center {
+    @include position(absolute);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@mixin transform-whole-center {
+    @include position(absolute);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+/* transform居中 */
+
+/* page */
+@mixin whole {
+    width: 100%;
+    height: 100%;
+}
+
+@mixin page {
+    @include whole;
+    overflow: hidden;
+}
+
+/* fixed */
+@mixin page-fixed ($zIndex: $fixed-zIndex) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $zIndex;
+}
+
+@mixin page-fixed-background($background: transparent, $zIndex: $fixed-zIndex) {
+    @include page-fixed($zIndex);
+    background: $background;
+}
+
+@mixin mask-background {
+    background: $mask-background;
+}
+
+@mixin page-fixed-mask($zIndex: $fixed-zIndex) {
+    @include page-fixed($zIndex);
+    @include mask-background;
+}
+
+@mixin modal($zIndex: $fixed-zIndex) {
+    @include page-fixed($zIndex);
+    .modal__mask {
+        @include whole();
+        @include mask-background;
+    }
+    .modal__content {
+        @include transform-whole-center;
+        @content;
+    }
+}
+/* fixed */
+
+/* page */
+
+
+
+@mixin flex-full($select, $direction: column) {   //指定某个选择器为flex: 1;
+    @if $direction == column {
+        height: 100%;
+        @include flex-column;
+    } @else if $direction == row {
+        @include flex;
+    } 
+
+    #{$select} {
+        flex: 1;
+    }
+}
+
+
+
+

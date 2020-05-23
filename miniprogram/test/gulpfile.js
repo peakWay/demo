@@ -11,8 +11,6 @@ const replace = require('gulp-replace')
 const moduleResolve = require('./module-resolver')
 const watch = require('gulp-watch')
 const batch = require('gulp-batch')
-const ts = require("gulp-typescript")
-const tsProject = ts.createProject("tsconfig.json")
 const plumber = require('gulp-plumber')
 const fs = require('fs')
 
@@ -210,34 +208,6 @@ function getPath () {
     return process.argv[argvPathIndex + 1]
 }
 
-gulp.task('tsc', () => {
-    tsProject.src()
-    .pipe(plumber())
-    .pipe(changed(paths.dest))
-    .pipe(tsProject())
-    .pipe(babel({
-        "presets": [
-            ["env", {
-              "modules": false,
-              "targets": {
-                "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
-              }
-            }],
-            "stage-2"
-          ],
-        "plugins": [
-            ["module-resolver", {
-                "alias": {
-                    "@": './src'
-                }
-            }]
-        ]
-    }))
-    .pipe(replace('process.env.NODE_ENV', `'${process.env.NODE_ENV}'`))
-    .pipe(replace('process.env.CUSTOM_ENV', `'${process.env.CUSTOM_ENV}'`))
-    .pipe(gulp.dest(paths.dest))
-})
-
 
 //监听任务
 gulp.task('watch', () => {
@@ -260,9 +230,6 @@ gulp.task('watch', () => {
     watch(paths.jsPath, batch(function (events, done) {
         gulp.start('js', done);
     }))
-    watch(paths.tsPath, batch(function (events, done) {
-        gulp.start('tsc', done);
-    }))
 
     watch(paths.wxsPath, batch(function (events, done) {
         gulp.start('wxs', done);
@@ -275,4 +242,4 @@ gulp.task('watch', () => {
 })
 
 // 执行打包任务
-gulp.task('build', ['wxml', 'json', 'js', 'tsc', 'wxss', 'image', 'wxs', 'npm', 'watch'])
+gulp.task('build', ['wxml', 'json', 'js', 'wxss', 'image', 'wxs', 'npm', 'watch'])

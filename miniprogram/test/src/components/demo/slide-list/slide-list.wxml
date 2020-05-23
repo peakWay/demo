@@ -1,0 +1,50 @@
+
+<view class="demo">
+    <view class="title" style="margin-top: 30px;">swiper实现： <text style="color: red;">暂时失败 -> 重启中 -> out</text></view>
+    <view class="swiper_wrap" bindtouchstart="onTouchStart" bindtouchend="onTouchEnd">
+        <swiper class="swiper"  duration="{{300}}" current="{{ currentSwiper }}" bindchange="handleSwiperChange" >
+            <block wx:for="{{imgUrls}}">
+                <swiper-item class="swiper_item" bindtouchmove="onTouchMove">
+                    <view 
+                        class="box" 
+                        style="margin-left: {{ index == currentSwiper ? 0 : index < currentSwiper ? -20 : offsetX < 0 && index == currentSwiper + 1 ? 180 - (index - currentSwiper) * (180 - 20) : 180 - (index - currentSwiper) * (180 - 20) - offsetX }}rpx;width: {{ offsetX < 0 && index == currentSwiper + 1 ? 120 - offsetX : offsetX > 0 && index == currentSwiper ? 300 - offsetX : index <= currentSwiper ? 300 : 120 }}rpx;" 
+                        data-current="{{ index }}"
+                        bindtap="handleSwiperChangeByIndex"
+                    >
+                    </view>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+
+    <view class="title" style="margin-top: 30px;">
+        全手势实现：  <text style="color: red;">进行中</text>
+    </view>
+
+    <view class="swiper_wrap" 
+        style="height: 120px;"
+        bindtouchstart="onTouchStart1" 
+        bindtouchmove="onTouchMove1" 
+        bindtouchend="onTouchEnd1"
+    >
+        <view 
+            class="listview {{ transition ? 'transition': '' }}" 
+            style="transform: translateX({{ -currentItem * 320 + offsetX1 }}rpx);"
+        >
+            <block wx:for="{{ imgUrls }}">
+                <view 
+                    class="item"
+                    style="width: {{ offsetX1 <= 0 ? (index <= currentItem ? 300 : index <= currentItem - (offsetX1 / diffWidth | 0) ? 300 : index == currentItem -(offsetX1 / diffWidth | 0) + 1 ? 120 - offsetX1 % diffWidth : 120) : (index > currentItem ? 120 : index > currentItem - (offsetX1 / diffWidth | 0) ? 120 : index == currentItem - (offsetX1 / diffWidth | 0) && currentItem !== 0 ? 300 - offsetX1 % diffWidth : 300)  }}rpx;"
+                    data-current="{{ index }}"
+                    bindtap="handleChangeItemByIndex"
+                >
+                    
+                </view>
+            </block>
+        </view>
+    </view>
+
+    <slide-list wx:if="{{ visible }}" list="{{ imgUrls }}" open-width="522" close-width="138" min-move-distance="120" height="200" prev-margin="20">
+        
+    </slide-list>
+</view>

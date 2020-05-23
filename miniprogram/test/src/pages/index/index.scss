@@ -1,53 +1,85 @@
+
+@import '~@/styles/mixin/layout.scss';
+
 page {
   height: 100%;
   width: 100%;
 }
 
-.swiper_wrap {
-  background: yellow;
-  overflow: hidden;
-  height: 200px;
+$color: var(#{--color});
+
+
+$color: red;
+$background: darken(#cc3, 20%);
+$width: 200;
+$height: 100;
+
+
+
+// .test {
+//   &
+// }
+
+// .change {
+//   $background: blue !global;
+// }
+
+.one {
+  width: #{$width}px;
+  height: #{$height}px;
+  color: $color;
+  background: $background;
 }
-.swiper {
-  height: 120px;
-  margin-top: 30px;
+
+.box {
+  width: 600px;
+  height: 500px;
+  background: red;
+  @include flex-wrap-center {
+    justify-content: center;
+  }
   
-  .box {
-    height: 100%;
-        // transition: width .3s ease;
+}
 
-    &.close {
-      width: 120px !important;
-    }
-    &.open {
-      width: 300px !important;
-    }
-    border-radius: 60px;
-    background: pink;
+.content {
+  width: 200px;
+  height: 100px;
+  margin: 10px 20px;
+  background: yellow;
+}
+
+.small {
+  width: 100px;
+  height: 100px;
+  margin: 0 20px;
+  background: green;
+}
+
+.modal {
+  @include modal;
+}
+
+.test {
+  @include flex-full('.body');
+
+  .head {
+    height: 300px;
+    background: yellow;
   }
-  .swiper_item {
-    height: 100%;
-    overflow: visible;
-    margin-left: 20px;
-    width: 300px !important;
+
+  .body {
+    background: red;
+    @include flex-full('.box2', row);
+    .box1 {
+      width: 200px;
+      background: green;
+    }
+    .box2 {
+      background: blue;
+    }
   }
 }
 
 
-.listview {
-  display: flex;
-  flex-wrap: nowrap;
-  height: 120px;
-  &.transition {
-    transition: transform .3s ease;
-  }
-  .item {
-    height: 100%;
-    margin-left: 20px;
-    border-radius: 60px;
-    background: pink;
-    flex-shrink: 0;
 
-  }
-}
 

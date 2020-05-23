@@ -1,0 +1,48 @@
+
+.swiper_wrap {
+    background: yellow;
+    overflow: hidden;
+    height: 200px;
+  }
+  .swiper {
+    height: 120px;
+    margin-top: 30px;
+    
+    .box {
+      height: 100%;
+          // transition: width .3s ease;
+  
+      &.close {
+        width: 120px !important;
+      }
+      &.open {
+        width: 300px !important;
+      }
+      border-radius: 60px;
+      background: pink;
+    }
+    .swiper_item {
+      height: 100%;
+      overflow: visible;
+      margin-left: 20px;
+      width: 300px !important;
+    }
+  }
+  
+  
+  .listview {
+    display: flex;
+    flex-wrap: nowrap;
+    height: 120px;
+    &.transition {
+      transition: transform .3s ease;
+    }
+    .item {
+      height: 100%;
+      margin-left: 20px;
+      border-radius: 60px;
+      background: pink;
+      flex-shrink: 0;
+  
+    }
+  }
