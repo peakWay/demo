@@ -13,11 +13,11 @@
  * flex:
  * display: flex; --> Row()
  * flex-direction: column; --> Column()
- * align-items: center/flex-end/baseline/stretch --> CrossAxisAlignment.center/end/baseline/stretch
- * justify-content: center/flex-end/space-between/space-around -> MainAxisAlignment.center/end/spaceBetween/spaceAround (flutter 多了个值: spaceEvenly, 意为在第一个和最后元素之间均匀分布其他元素)
+ * align-items: center /flex-end / baseline / stretch --> CrossAxisAlignment.center / end / baseline / stretch
+ * justify-content: center / flex-end / space-between / space-around -> MainAxisAlignment.center / end / spaceBetween / spaceAround (flutter 多了个值: spaceEvenly, 意为在第一个和最后元素之间均匀分布其他元素)
  * flex-wrap: wrap; --> Wrap() (Flow可以实现复杂的自定义流式布局)
- * align-content: center/flex-end; --> Wrap(crossAxisAlignment: WrapCrossAlignment.center/end)
- * flex: 1: --> Expand()/Fix
+ * align-content: center / flex-end; --> Wrap(crossAxisAlignment: WrapCrossAlignment.center / end)
+ * flex: 1: --> Expand() / Fixible()
  */
 
 /**
@@ -28,18 +28,35 @@
  */
 
 /**
- * 盒模型: margin, padding, border
+ * 盒模型: margin, padding
  * 注: flutter中border限制在宽高内，等效与css中box-sizing: border-box;
  * margin-left/padding-left: 20px; --> margin: EdgeInsets.only(left: 20)
- * margin/padding: 20px / 0 20px / 20px 0 / 10px 20px 30px 40px --> margin: EdgeInsets.all(20) / EdgeInsets.symmetric(horizontal: 20) / EdgeInsets.symmetric(vertical: 20) / EdgeInsets.fromLTRB(10, 20, 30, 40)
- * border-bottom: 1px solid #000 --> border: Border(bottom: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black))
- * border: 1px solid #000 --> border: Border.all(color: Colors.black, width: 1, style: BorderStyle.solid) (flutter 新增水平或垂直方向设置: Border.symmetric(vertical: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black)))
+ * margin/padding: 20px / 0 20px / 20px 0 / 10px 20px 30px 40px --> margin/padding: EdgeInsets.all(20) / EdgeInsets.symmetric(horizontal: 20) / EdgeInsets.symmetric(vertical: 20) / EdgeInsets.fromLTRB(10, 20, 30, 40)
  */
 
 /**
  * 字体:
- * font-size: 
+ * font-size: 20px --> TextStyle(fontSize: 20.0)
+ * font-weight: bold --> TextStyle(fontWeight: FontWeight.bold)
+ * line-height: 1 --> Text(strutStyle: StrutStyle(height: 1; forceStrutHeight: true))  //默认值约为height: 1.3;height小于默认值不设置forceStrutHeight将无效
+ * white-space: nowrap / pre / pre-wrap	; --> softWrap: false //Text()默认为自动换行，保留空白符和换行符 
+ * text-align:center --> Text(textAlign: TextAlign.center)
+ * letter-spaceing: 10px --> TextStyle(letterSpacing: 10)
+ * text-decoration: underline / overline / line-through  red  solid; --> TextStyle(decoration: TextDecoration.underline / overline / lineThrough, decorationColor: Colors.red, decorationStyle: TextDecorationStyle.solid)
+ * color: red; --> TextStyle(color: Colors.red)
+ * white-space: no-wrap; text-overflow: ellipsis; overflow: hidden; --> Text(overflow: TextOverflow.ellipsis)
  */
+
+
+/**
+ * 背景边框阴影:
+ * background-color: red; --> Container(color: Colors.red) 或 BoxDecoration(color: Colors.red)
+ * background: url('img.png') no-repeat center / cover; --> BoxDecoration()
+ * border-bottom: 1px solid #000 --> border: Border(bottom: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black))
+ * border: 1px solid #000 --> border: Border.all(color: Colors.black, width: 1, style: BorderStyle.solid) (flutter 新增水平或垂直方向设置: Border.symmetric(vertical: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black)))
+ */
+
+
 
 
 

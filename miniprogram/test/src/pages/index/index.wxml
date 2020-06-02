@@ -1,13 +1,13 @@
 
-<view class="test {{ change ? 'change' : '' }}" --color="green">
+<view class="test" style=" {{ change ? '--color: pink' : '' }}">
     <view style="padding-top: 100rpx;font-size: 36px;text-align: center;">demo</view>
 
-    <!-- <view class="one" bindtap="handleChange">
+    <view class="one" bindtap="handleChange">
         第一段
     </view>
     <view class="two">
         第二段
-    </view> -->
+    </view>
     <!-- <view class="box">
         <view class="content"></view>
         <view class="content" style="height: 160rpx;"></view>
@@ -22,9 +22,9 @@
             <view class="box"></view>
         </view>
     </view> -->
-    <view class="head">
+    <!-- <view class="head">
 
-    </view>
+    </view> -->
 
     <view class="body">
         <view class="box1"></view>

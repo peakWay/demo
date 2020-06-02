@@ -78,6 +78,19 @@ $mask-background: rgba(0, 0, 0, .8);
     @content;
     align-content: center;
 }
+
+@mixin flex-full($select, $direction: column) {   //指定某个选择器为flex: 1;
+    @if $direction == column {
+        height: 100%;
+        @include flex-column;
+    } @else if $direction == row {
+        @include flex;
+    } 
+
+    #{$select} {
+        flex: 1;
+    }
+}
 /* flex */
 
 /* position */
@@ -156,21 +169,6 @@ $mask-background: rgba(0, 0, 0, .8);
 /* fixed */
 
 /* page */
-
-
-
-@mixin flex-full($select, $direction: column) {   //指定某个选择器为flex: 1;
-    @if $direction == column {
-        height: 100%;
-        @include flex-column;
-    } @else if $direction == row {
-        @include flex;
-    } 
-
-    #{$select} {
-        flex: 1;
-    }
-}
 
 
 

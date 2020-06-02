@@ -1,20 +1,17 @@
 
 @import '~@/styles/mixin/layout.scss';
+@import '~@/styles/mixin/business.scss';
 
 page {
   height: 100%;
   width: 100%;
 }
 
-$color: var(#{--color});
-
 
 $color: red;
 $background: darken(#cc3, 20%);
 $width: 200;
 $height: 100;
-
-
 
 // .test {
 //   &
@@ -25,10 +22,12 @@ $height: 100;
 // }
 
 .one {
-  width: #{$width}px;
-  height: #{$height}px;
-  color: $color;
-  background: $background;
+  // width: #{$width}px;
+  // height: #{$height}px;
+  // // color: $color;
+  // background: var(--color);
+  // background: $background;
+  @include adaption-button(20, 100);
 }
 
 .box {
@@ -60,7 +59,8 @@ $height: 100;
 }
 
 .test {
-  @include flex-full('.body');
+  // @include flex-full('.body');
+  --color: blue;
 
   .head {
     height: 300px;
@@ -68,14 +68,21 @@ $height: 100;
   }
 
   .body {
-    background: red;
-    @include flex-full('.box2', row);
+    // background: red;
+    // @include flex-full('.box2', row);
+    // width: 200px;
+    height: 200px;
     .box1 {
-      width: 200px;
-      background: green;
+      width: 20px;
+      height: 30px;
+      background: red;
     }
     .box2 {
-      background: blue;
+      // background: blue;
+      margin-left: 20px;
+      width: 40px;
+      height: 20px;
+      background: yellow;
     }
   }
 }

@@ -50,14 +50,34 @@ class MyRow extends StatelessWidget {
           Container(
             width: 300,
             height: 100,
-            color: Colors.pink
+            color: Colors.pink,
+            child: Text(
+              '是对肌肤    十分惊悚金佛山大家圣诞节佛山的肌肤就哦是大家放松的',
+              style: TextStyle(
+                fontSize: 14,
+                letterSpacing: 1
+              ),
+              // softWrap: ,
+              strutStyle: StrutStyle(
+                forceStrutHeight: true,
+                height: 1.3,
+                // fontSize: 12,
+                // leading: 2
+              ),
+            ),
           ),
-          Positioned(
-            child:  Text('是对肌肤'),
-            bottom: 0,
-            right: 0,
-            top: 0
-          )
+          // Positioned(
+          //   child:  Text(
+          //     '是对肌肤    十分惊悚金佛山大家圣诞节佛\n山的肌肤就哦是大家放松的',
+          //     // softWrap: ,
+          //     strutStyle: StrutStyle(
+          //       height: 1
+          //     ),
+          //   ),
+          //   bottom: 0,
+          //   right: 0,
+          //   top: 0
+          // )
         ],
       ),
     );
