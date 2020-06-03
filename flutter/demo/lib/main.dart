@@ -36,27 +36,43 @@ class MyRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(20),
       child: Container(
         width: 300,
         height: 300,
-        decoration: BoxDecoration(
-          // image: DecorationImage(
-          //   // image:NetworkImage('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG'),
-          //   // alignment: Alignment(0.2, 1.0),
-  
-          //   fit: BoxFit.cover
-          // ),
-          gradient: LinearGradient(
-            begin: Alignment(-1.0, -1.0), 
-            end: Alignment(-0.96, -0.96), 
-            colors: [Colors.white, Colors.white, Colors.black, Colors.black],
-            stops: [0, 0.5, 0.5 , 1],
-            tileMode: TileMode.repeated
+        decoration: ShapeDecoration(
+          shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)), side: BorderSide(color: Colors.white, style: BorderStyle.solid, width: 2)),
+          image: DecorationImage(
+            image:NetworkImage('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG'),  
+            fit: BoxFit.cover
           ),
+          shadows: [
+            BoxShadow(spreadRadius: 10, color: Colors.red)
+          ],
+        )
+        
+        // BoxDecoration(
+        //   image: DecorationImage(
+        //     image:NetworkImage('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG'),
+        //     // alignment: Alignment(0.2, 1.0),
+  
+        //     fit: BoxFit.cover
+        //   ),
+        //   boxShadow: [
+        //     BoxShadow(spreadRadius: 10, color: Colors.red)
+        //   ],
+        //   // gradient: LinearGradient(
+        //   //   begin: Alignment(-1.0, -1.0), 
+        //   //   end: Alignment(-0.96, -0.96), 
+        //   //   colors: [Colors.white, Colors.white, Colors.black, Colors.black],
+        //   //   stops: [0, 0.5, 0.5 , 1],
+        //   //   tileMode: TileMode.repeated
+        //   // ),
+        //   shape: BeveledRectangleBorder
+        //   //  BoxShape.rectangle
             
-        ),
-        child: Padding(padding: EdgeInsets.all(1), child: Container(color: Colors.white),),
+        // ),
+        // child: Padding(padding: EdgeInsets.all(1), child: Container(color: Color.fromRGBO(255,126,152, 0.8))),
       )
     );
   }

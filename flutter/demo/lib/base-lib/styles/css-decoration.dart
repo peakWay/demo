@@ -59,6 +59,7 @@
  * border-radius: 20px 20px 0 0 / 20px 0 20px 0; --> BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circle(10)) / horizontal(left: Radius.circle(10)))
  * border-radius: 10px 20px 30px 40px; --> BoxDecoration(borderRadius: BorderRadius.circle(topLeft: Radius.circle(10), topRight: Radius.circle(20), bottomRight: Radius.circle(30), bottomLeft: Radius.circle(40)))
  * border-radius: 20px; --> BoxDecoration(borderRadius: BorderRadius.circle(20) 或 BorderRadius.all(Radius.cicle(20)))
+ * box-shadow: 1px 1px 10px 20px red; --> BoxDecoration(boxShadow: BoxShadow(offset: Offset(1, 1), blurRadius: 10, spreadRadius: 20), color: Colors.red)
  * 
  * 注: 
  * 1.BoxFix.fill 等效 100% 100%; BoxFix.container 等效 container; BoxFix.cover 等效 BoxFix.cover 并且 background-position: center;
@@ -71,8 +72,19 @@
  */
 
 /**
- * 其他: overflow, shape
+ * 变形与动画
  * 
+ */
+
+/**
+ * 其他: color, overflow, shape, ShapeDecoration
+ * color: #FF7E98 / rgba(255,126,152, 0.8) --> BoxDecoration(color: Color(0xFFFF7E98) / Color.fromRGBO(255,126,152, 0.8))
+ * overflow: hidden --> Overflow()
+ * shape(类似css中的clip) //子项图片都会被裁切 --> BoxDecoration(shape: BoxShape.circle)
+ * 
+ * 例:
+ * 1.ShapeDecoration
+ * ShapeDecoration(shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)), side: BorderSide(color: Colors.white, style: BorderStyle.solid, width: 2)),image: DecorationImage(image:NetworkImage('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG'),  fit: BoxFit.cover),shadows: [BoxShadow(spreadRadius: 10, color: Colors.red)],)
  */
 
 
