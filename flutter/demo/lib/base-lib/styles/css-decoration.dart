@@ -51,9 +51,28 @@
 /**
  * 背景边框阴影:
  * background-color: red; --> Container(color: Colors.red) 或 BoxDecoration(color: Colors.red)
- * background: url('img.png') no-repeat center / cover; --> BoxDecoration()
- * border-bottom: 1px solid #000 --> border: Border(bottom: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black))
- * border: 1px solid #000 --> border: Border.all(color: Colors.black, width: 1, style: BorderStyle.solid) (flutter 新增水平或垂直方向设置: Border.symmetric(vertical: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black)))
+ * background: url('img.png') no-repeat center / 100% 100%; --> BoxDecoration(image: DecorationImage(image: NetworkImage('img.png')), repeat: ImageRepeat.noRepeat, alignment: Alignment.center, fit: BoxFit.fill)
+ * background: linear-gradient(to bottom, red, blue) / radial-gradient(red, blue)--> BoxDecoration(gradient: LinearGradient(begin: Alignment(0, -1.0), end: Alignment(0, 1.0), colors: [Colors.red, Colors.blue]) / radial-gradient(colors: [Colors.red, Colors.blue]))
+ * border-bottom: 1px solid #000; --> border: Border(bottom: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black))
+ * border: 1px solid #000; --> border: Border.all(color: Colors.black, width: 1, style: BorderStyle.solid) (flutter 新增水平或垂直方向设置: Border.symmetric(vertical: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black)))
+ * border-left-radius: 20px; --> BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circle(10)))
+ * border-radius: 20px 20px 0 0 / 20px 0 20px 0; --> BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circle(10)) / horizontal(left: Radius.circle(10)))
+ * border-radius: 10px 20px 30px 40px; --> BoxDecoration(borderRadius: BorderRadius.circle(topLeft: Radius.circle(10), topRight: Radius.circle(20), bottomRight: Radius.circle(30), bottomLeft: Radius.circle(40)))
+ * border-radius: 20px; --> BoxDecoration(borderRadius: BorderRadius.circle(20) 或 BorderRadius.all(Radius.cicle(20)))
+ * 
+ * 注: 
+ * 1.BoxFix.fill 等效 100% 100%; BoxFix.container 等效 container; BoxFix.cover 等效 BoxFix.cover 并且 background-position: center;
+ * 2.background-size: 10px 10px、 background-image 多重叠加功能在flutter 中无法用DecorationImage实现
+ * 3.gradient也无法多重叠加
+ * 
+ * 例: 
+ * 1.渐变实现虚线
+ * LinearGradient(begin: Alignment(-1.0, -1.0), end: Alignment(-0.96, -0.96), colors: [Colors.white, Colors.white, Colors.black, Colors.black],stops: [0, 0.5, 0.5 , 1],tileMode: TileMode.repeated)
+ */
+
+/**
+ * 其他: overflow, shape
+ * 
  */
 
 

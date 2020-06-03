@@ -35,51 +35,29 @@ class MyApp extends StatelessWidget {
 class MyRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      height: 200,
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(width: 1, style: BorderStyle.solid, color: Colors.black)),
-        color: Colors.yellow,
-      ),
-      
-      child: Stack(
-        // overflow: Overflow.visible,
-        children: <Widget>[
-          Container(
-            width: 300,
-            height: 100,
-            color: Colors.pink,
-            child: Text(
-              '是对肌肤    十分惊悚金佛山大家圣诞节佛山的肌肤就哦是大家放松的',
-              style: TextStyle(
-                fontSize: 14,
-                letterSpacing: 1
-              ),
-              // softWrap: ,
-              strutStyle: StrutStyle(
-                forceStrutHeight: true,
-                height: 1.3,
-                // fontSize: 12,
-                // leading: 2
-              ),
-            ),
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Container(
+        width: 300,
+        height: 300,
+        decoration: BoxDecoration(
+          // image: DecorationImage(
+          //   // image:NetworkImage('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG'),
+          //   // alignment: Alignment(0.2, 1.0),
+  
+          //   fit: BoxFit.cover
+          // ),
+          gradient: LinearGradient(
+            begin: Alignment(-1.0, -1.0), 
+            end: Alignment(-0.96, -0.96), 
+            colors: [Colors.white, Colors.white, Colors.black, Colors.black],
+            stops: [0, 0.5, 0.5 , 1],
+            tileMode: TileMode.repeated
           ),
-          // Positioned(
-          //   child:  Text(
-          //     '是对肌肤    十分惊悚金佛山大家圣诞节佛\n山的肌肤就哦是大家放松的',
-          //     // softWrap: ,
-          //     strutStyle: StrutStyle(
-          //       height: 1
-          //     ),
-          //   ),
-          //   bottom: 0,
-          //   right: 0,
-          //   top: 0
-          // )
-        ],
-      ),
+            
+        ),
+        child: Padding(padding: EdgeInsets.all(1), child: Container(color: Colors.white),),
+      )
     );
   }
 }
