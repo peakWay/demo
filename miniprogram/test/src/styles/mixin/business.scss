@@ -1,0 +1,90 @@
+
+$primary: #FF7E98;
+
+@import './layout.scss';
+
+/* 字体 */
+@mixin font-size($value: 28) {
+    font-size: #{$value}px;
+}
+
+@mixin font-weight($value: bold) {
+    font-weight: $value;
+}
+
+@mixin line-height($value: 1) {
+    line-height: $value;
+}
+
+@mixin primary-font($size: 28) {
+    @include font-size($size);
+    @include line-height;
+}
+
+@mixin custom-font($size, $height, $weight) {
+    @include font-size($size);
+    @include line-height($height);
+    @if $weight {
+        @include font-weight($weight);
+    }
+}
+/* 字体 */
+
+/* 按钮 */
+
+//设置宽高的按钮
+@mixin constraint-button($width, $height, $fontSize: 28, $color: #fff, $background: $primary, $border: null, $borderRadius: null) {
+    width: #{$width}px;
+    height: #{$height}px;
+    
+    @include font-size($fontSize);
+
+    text-align: center;
+    color: $color;
+    background: $background;
+
+    @if $border{
+        line-height: $height - 2 * nth($border, 1);
+        
+        border: $border;
+    } @else {
+        line-height: #{$height}px;
+    }
+
+    @if $borderRadius {
+        border-radius: #{$borderRadius}px;
+    } @else {
+        border-radius: #{$height / 2}px;
+    }
+}
+
+//padding自适应按钮
+@mixin adaption-button($padding, $height, $fontSize: 28, $color: #fff, $background: $primary, $border: null, $borderRadius: null) {
+    display: inline;
+    padding: 0 #{$padding}px;
+    @include font-size($fontSize);
+
+    @if $border{
+        line-height: #{$height}px - #{2 * nth($border, 1)}px;
+    } @else {
+        line-height: #{$height / 2}px;
+    }
+
+    color: $color;
+    background: $background;
+
+    @if $borderRadius {
+        border-radius: #{$borderRadius}px;
+    } @else {
+        border-radius: #{$height / 2}px;
+    }
+}
+
+//flex多元素按钮
+@mixin flex-constraint-button($width, $height, $fontSize: 28, $color: #fff, $background: $primary, $border: null, $borderRadius: null) {
+    @include flex-whole-center;
+    @include constraint-button($width, $height, $fontSize, $color, $background, $border, $borderRadius);
+    @content;
+}
+
+/* 按钮 */

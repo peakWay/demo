@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    class EventBus {
+        constructor() {
+            this.events = {}
+            this.value = 1
+        }
+
+        on(key, cb) {
+            this.events.value = 2
+            this.events[key] = cb
+        }
+
+        trigger(key, args) {
+            console.log('eventBus', this)
+            this.events[key].call(this, args)
+        }
+    }
+
+    const event = new EventBus()
+
+    event.on('ready', function (data) {console.log(this, this.value, data)})
+
+    event.trigger('ready', 'data')
+</script>
+<body>
+    
+</body>
+</html>
