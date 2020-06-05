@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script >
+/**
+    matrix核心方法
+*/
+
+//求第一个矩阵的行合并第二个矩阵的列的值
+function mergeMatrixArr(arr1, arr2) {
+    let value = 0
+    
+    for (var i = 0; i< arr1.length; i++) {
+        value += (arr1[i] * arr2[i])
+    }
+    
+    return Number(value.toFixed(3))
+}
+
+//求两个矩阵相乘的值
+function doubleMatrixMultiply (matrix1, matrix2) {
+    if (matrix1.length !== matrix2[0].length || matrix1[0].length !== matrix2.length) {
+        return console.error('矩阵相乘格式不对')
+    }
+    const xLength = matrix2[0].length
+    const yLength = matrix1.length
+    let matrix = []
+    
+    //获取matrix2的所有列
+    let columnMatrix2 = []
+    for (var i = 0; i < xLength; i++) {
+        let xArr = []
+        for (var j = 0; j< yLength; j++) {
+        xArr.push(matrix2[j][i])
+        }
+        columnMatrix2.push(xArr)
+    }
+        
+    for (var i = 0; i < yLength; i++) {
+        let yArr = []
+        for (var j = 0; j < xLength; j++) {
+        yArr.push(mergeMatrixArr(matrix1[i], columnMatrix2[j]))
+        }
+        matrix.push(yArr)
+    }
+    
+    return matrix
+}
+
+//求多个矩阵相乘的值
+function multipleMatrixMultiply(...arguments) {
+    if (arguments.length == 0) return console.error('矩阵相乘方法参数不能为空')
+    if (arguments.length == 1) return arguments
+    
+    const initArr = []
+    
+    args = Array.prototype.slice.apply(arguments)
+        
+    return args.reduce((prev, cur, index) => {
+        if (prev.length == 0) return cur
+    
+        prev = doubleMatrixMultiply(prev, cur)
+        
+        return prev
+    }, initArr)
+}
+
+
+//求transform属性对应的矩阵
+function getTranslateMatrix2D (x, y) {
+    let matrix = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1]
+    ]
+    
+    matrix[0][2] = x
+    matrix[1][2] = y
+    
+    return matrix
+}
+
+//求scale属性对应的矩阵
+function getScaleMatrix2D(scaleX, scaleY) {
+    scaleY == undefined && (scaleY = scaleX)
+    
+    let matrix = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1]
+    ]
+    
+    matrix[0][0] = scaleX
+    matrix[1][1] = scaleY
+    
+    return matrix
+}
+
+//求rotate属性对应的矩阵
+function getRotateMatrix2D(deg) {  
+    let matrix = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1]
+    ]
+    
+    const radian = Math.PI / 180 * deg
+    const sin = Number(Math.sin(radian).toFixed(3))
+    const cos = Number(Math.cos(radian).toFixed(3))
+    
+    matrix[0][0] = cos  //a
+    matrix[1][0] = sin  //b
+    matrix[0][1] = -sin //c
+    matrix[1][1] = cos  //d
+
+    return matrix
+}
+
+//求skew属性对应的矩阵
+function getSkewMatrix2D(degX, degY) {
+    degY == undefined && (degY = degX)
+    
+    let matrix = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1]
+    ]
+        
+    matrix[0][1] = Number(Math.tan(Math.PI / 180 * degX).toFixed(3))  //b
+    matrix[1][0] = Number(Math.tan(Math.PI / 180 * degY).toFixed(3))  //c
+    
+    return matrix
+}
+
+//将矩阵转化为css中matrix值
+function matrixArrToValue2D (matrix) {
+    return `${matrix[0][0]}, ${matrix[1][0]}, ${matrix[0][1]}, ${matrix[1][1]}, ${matrix[0][2]}, ${matrix[1][2]}`
+}
+</script>
+<style>
+    .box {
+        width: 400px;
+        height: 200px;
+        background: yellow;
+    }
+
+    .rectangle {
+        width: 60px;
+        height: 60px;
+        background: red;
+    }
+</style>
+<body>
+    <div class="box">
+        <div class="rectangle" id="rectangle"></div>
+    </div>
+</body>
+
+<script>
+    const result = multipleMatrixMultiply(getSkewMatrix2D(10), getTranslateMatrix2D(10, 20), getRotateMatrix2D(30))
+
+    let query = document.getElementById('rectangle')
+    query.style.transform = `matrix(${matrixArrToValue2D(result)})`
+</script>
+</html>
