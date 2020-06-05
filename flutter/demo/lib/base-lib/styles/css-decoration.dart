@@ -73,7 +73,11 @@
 
 /**
  * 变形与动画
- * 
+ * transform: translate(10px, 10px) --> transform: Matrix4.translationValues(10, 10, 0)
+ * transform: scale(2) --> transform: Matrix4.diagonal3Values(2, 2, 0)
+ * transform: rotate(30deg) --> transform: Matrix4.rotationZ(pi / 6)
+ * transform: skew(30deg, 30deg) --> tranform: Matrix4.skew(0.1, 0.1) //它的值为axis
+ * transform: translate(10px, 10px) scale(2) rotate(30deg) --> transform: Matrix4.identity()..translate(10.0, 10.0, 0)..rotateZ(pi / 6)..scale(2, 2, 1)
  */
 
 /**
