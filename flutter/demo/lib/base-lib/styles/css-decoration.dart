@@ -58,7 +58,7 @@
  * border-left-radius: 20px; --> BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circle(10)))
  * border-radius: 20px 20px 0 0 / 20px 0 20px 0; --> BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circle(10)) / horizontal(left: Radius.circle(10)))
  * border-radius: 10px 20px 30px 40px; --> BoxDecoration(borderRadius: BorderRadius.circle(topLeft: Radius.circle(10), topRight: Radius.circle(20), bottomRight: Radius.circle(30), bottomLeft: Radius.circle(40)))
- * border-radius: 20px; --> BoxDecoration(borderRadius: BorderRadius.circle(20) 或 BorderRadius.all(Radius.cicle(20)))
+ * border-radius: 20px; --> BoxDecoration(borderRadius: BorderRadius.circular(20) 或 BorderRadius.all(Radius.cicle(20)))
  * box-shadow: 1px 1px 10px 20px red; --> BoxDecoration(boxShadow: BoxShadow(offset: Offset(1, 1), blurRadius: 10, spreadRadius: 20), color: Colors.red)
  * 
  * 注: 

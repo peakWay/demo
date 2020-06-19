@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import './base-lib/view/decoration.dart';
 import 'dart:math';
+import 'package:demo/fpdx/uikit/action_sheet/action_sheet.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:demo/fpdx/uikit/tabbar/tabbar.dart';
+import 'package:demo/fpdx/components/task.dart';
+import 'package:demo/base-lib/view/context.dart';
 
 
 
@@ -8,7 +12,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print('');
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -26,62 +29,22 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(title: Text('demo')),
-        body: Column(
-          children: <Widget>[
-            MyRow(),
-            // MyDecoration()
-          ],
+        body: Center(
+          child: BaseWidget(),
         )
       ),
     );
   }
 }
 
-class MyRow extends StatelessWidget {
+class BaseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(20),
-      child: Container(
-        width: 300,
-        height: 300,
-        decoration: ShapeDecoration(
-          shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)), side: BorderSide(color: Colors.white, style: BorderStyle.solid, width: 2)),
-          image: DecorationImage(
-            image:NetworkImage('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG'),  
-            fit: BoxFit.cover
-          ),
-          shadows: [
-            BoxShadow(spreadRadius: 10, color: Colors.red)
-          ],
-        ),
-        transform: Matrix4.identity()..translate(10.0, 10.0, 0)..rotateZ(pi / 6)..scale(2.0, 2.0, 1)
-        // BoxDecoration(
-        //   image: DecorationImage(
-        //     image:NetworkImage('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG'),
-        //     // alignment: Alignment(0.2, 1.0),
-  
-        //     fit: BoxFit.cover
-        //   ),
-        //   boxShadow: [
-        //     BoxShadow(spreadRadius: 10, color: Colors.red)
-        //   ],
-        //   // gradient: LinearGradient(
-        //   //   begin: Alignment(-1.0, -1.0), 
-        //   //   end: Alignment(-0.96, -0.96), 
-        //   //   colors: [Colors.white, Colors.white, Colors.black, Colors.black],
-        //   //   stops: [0, 0.5, 0.5 , 1],
-        //   //   tileMode: TileMode.repeated
-        //   // ),
-        //   shape: BeveledRectangleBorder
-        //   //  BoxShape.rectangle
-            
-        // ),
-        // child: Padding(padding: EdgeInsets.all(1), child: Container(color: Color.fromRGBO(255,126,152, 0.8))),
-      )
-    );
+    ScreenUtil.init(context, width: 750, height: 1334);
+
+
+    return FatherWidget();
   }
 }
-
 
 void main() => runApp(MyApp());
