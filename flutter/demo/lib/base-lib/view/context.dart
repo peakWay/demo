@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
  * 3.Provider共享状态实现
  */
 
-class CommonData {
+class CommonData extends ChangeNotifier{
   CommonData({this.name});
 
   String name;
@@ -82,7 +82,6 @@ class ChildrenWidget extends StatelessWidget {
     //通过自定义of方法有意向的共享状态
     print('${FatherWidget.of<FatherWidget>(context).widgetArg}');
     
-
     return Column(
       children: <Widget>[
         Container(
@@ -114,8 +113,26 @@ class InheritedProvider<T> extends InheritedWidget {
   }
 }
 
+class ChangeNotifier implements Listenable {
+  List listeners = [];
 
-class ChangeNotifierProvider<T> extends StatefulWidget {
+  @override
+  void addListener(VoidCallback listener) {
+    listeners.add(listener);
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    listeners.remove(listener);
+  }
+
+  void notifyListeners() {
+    listeners.forEach((item) => item());
+  }
+}
+
+
+class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
   ChangeNotifierProvider({
     Key key,
     this.data,
@@ -135,7 +152,41 @@ class ChangeNotifierProvider<T> extends StatefulWidget {
   _ChangeNotifierProviderState<T> createState() => _ChangeNotifierProviderState<T>();
 }
 
-class _ChangeNotifierProviderState<T> extends State<ChangeNotifierProvider<T>> {
+class _ChangeNotifierProviderState<T extends ChangeNotifier> extends State<ChangeNotifierProvider<T>> {
+
+  void update() {
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void didUpdateWidget(ChangeNotifierProvider<T> oldWidget) {
+
+    if (oldWidget.data != widget.data) {
+      oldWidget.data.removeListener(update);
+      widget.data.addListener(update);
+    }
+
+    super.didUpdateWidget(oldWidget);
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 给model添加监听器
+    widget.data.addListener(update);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    widget.data.removeListener(update);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +196,6 @@ class _ChangeNotifierProviderState<T> extends State<ChangeNotifierProvider<T>> {
     );
   }
 }
-
 
 
 class ProviderTest extends StatefulWidget {

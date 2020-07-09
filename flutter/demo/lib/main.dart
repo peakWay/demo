@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:demo/fpdx/uikit/tabbar/tabbar.dart';
 import 'package:demo/fpdx/components/task.dart';
 import 'package:demo/base-lib/view/context.dart';
+import 'package:demo/fpdx/components/setting-cell.dart';
+import 'package:demo/base-lib/components/custom-button.dart';
 
 
 
@@ -43,8 +45,30 @@ class BaseWidget extends StatelessWidget {
     ScreenUtil.init(context, width: 750, height: 1334);
 
 
-    return FatherWidget();
+    return Column(
+      children: <Widget>[
+        // SettingCell(),
+        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        SizeButton(width: 400.w, height: 100.w, border: Border.all(), 
+          text: '回忆那么伤', color: Colors.red, textColor: Colors.white,
+          fontSize: 40.sp,
+          gradient: LinearGradient(colors: [Colors.red, Colors.blue]),
+        ),
+        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        SizeButton1(),
+        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        SizeButton2(),
+        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        SizeButton3(),
+        SizeButton4()
+      ],
+    );
   }
 }
 
 void main() => runApp(MyApp());
+
+
+
+
+

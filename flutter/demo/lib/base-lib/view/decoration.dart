@@ -1,8 +1,8 @@
 
 /**
- * 常用相关css与decoration的demo,view
+ * 常用相关css与decoration的demo,view,动画
  * 有以下类:
- * Wrap
+ * Wrap，
  */
 
 import 'package:flutter/material.dart';
