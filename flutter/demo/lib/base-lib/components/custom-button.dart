@@ -2,36 +2,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
+
 class CustomButton extends StatelessWidget {
   CustomButton({
     Key key,
-    this.fontSize,
-    this.border,
-    this.borderRadius,
-    this.color,
-    this.gradient,
-    this.textColor,
     this.text,
-    this.child,
-    this.height
+    this.decoration,
+    this.style,
+    this.borderRadius,
+    this.padding = EdgeInsets.zero,
+    this.child
   }) : assert(text == null || child == null),
        assert(text != null || child != null),
        super(key: key);
 
-  final double fontSize;
-
-  final Border border;
-
+  ///圆角
   final BorderRadius borderRadius;
 
-  ///按钮背景
-  final Color color;
+  ///Decoration 样式
+  final BoxDecoration decoration;
 
-  ///背景渐变
-  final Gradient gradient;
+  ///Padding模式
+  final EdgeInsets padding;
 
-  ///文字颜色
-  final Color textColor;
+  ///文本样式
+  final TextStyle style;
 
   ///子控件
   final Widget child;
@@ -39,35 +35,48 @@ class CustomButton extends StatelessWidget {
   ///文本内容
   final String text;
 
-  final double height;
+  BoxDecoration decorationResult(BuildContext context,double height) {
+    print('$height, $borderRadius, ${Theme.of(context).primaryColor}');
+    if (decoration == null) {
+      return BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: borderRadius,
+      );
+    } else {
+      BoxDecoration newDecoration;
+    
+      newDecoration = decoration.copyWith(
+        color: decoration.color ?? Theme.of(context).primaryColor,
+        borderRadius: decoration.borderRadius ?? borderRadius
+      );
 
-  double get leadingHeight => (height - (fontSize)) / (fontSize);
+      return newDecoration;
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-        decoration: BoxDecoration(
-          color: color ?? Theme.of(context).primaryColor,
-          borderRadius: borderRadius,
-          border: border,
-          gradient: gradient
-        ),
-        child: child ?? Text(
-          '$text', 
-          style: TextStyle(
-            fontSize: fontSize,
-            color: textColor,
-          ),
-          textAlign: TextAlign.center,
-          strutStyle: 
-            height != null 
-            ? StrutStyle(
-                height: 1.5,
-                // leading: leadingHeight,
-                forceStrutHeight: true
-              ) 
-            : null,
-        )
+
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return DecoratedBox(
+          decoration: decorationResult(context, constraints.minHeight),
+          child: Padding(
+            padding: padding,
+            child: child ?? Center(
+              widthFactor: 1, 
+              heightFactor: 1,
+              child: DefaultTextStyle(
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28.w,
+                ), 
+                child: Text('$text', style: style)
+              )
+            ),
+          )
+        );
+      },
     );
   }
 }
@@ -77,15 +86,12 @@ class SizeButton extends CustomButton {
     Key key,
     @required this.width,
     @required this.height,
-    double fontSize,
-    Border border,
     BorderRadius borderRadius,
-    Color color,
-    Gradient gradient,
-    Color textColor,
+    BoxDecoration decoration,
+    TextStyle style,
     String text,
     Widget child
-  }) : super(key: key, fontSize: fontSize, border: border, borderRadius: borderRadius ?? BorderRadius.circular(height / 2), color: color, gradient: gradient, textColor: textColor, text: text, child: child, height: height);
+  }) : super(key: key, borderRadius: borderRadius ?? BorderRadius.circular(height / 2), decoration: decoration, style: style, text: text, child: child);
 
   final double width;
   final double height;
@@ -101,7 +107,21 @@ class SizeButton extends CustomButton {
 }
 
 class PaddingButton extends CustomButton {
-  
+  PaddingButton({
+    Key key,
+    @required this.padding,
+    BorderRadius borderRadius,
+    BoxDecoration decoration,
+    TextStyle style,
+    String text,
+    Widget child
+  }) : super(key: key, borderRadius: borderRadius, decoration: decoration, style: style, text: text, child: child);
+
+  final EdgeInsets padding;
+
+  Widget build(BuildContext context) {
+    return super.build(context);
+  }
 }
 
 class SizeButton1 extends StatelessWidget {
@@ -231,13 +251,14 @@ class SizeButton4 extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
-        child: Text(
+        child: Center(child: Text(
           '确认圣诞节佛酸豆角',
           style: TextStyle(
             color: Colors.white,
             fontSize: 28.sp
           ),
-        ),
+        ),widthFactor: 1, heightFactor: 1,)
+        
 
         // Text.rich(
         //         TextSpan(

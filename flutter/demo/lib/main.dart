@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(title: Text('demo')),
         body: Center(
           child: BaseWidget(),
-        )
+        ),
+        backgroundColor: Colors.yellow,
       ),
     );
   }
@@ -49,11 +50,14 @@ class BaseWidget extends StatelessWidget {
       children: <Widget>[
         // SettingCell(),
         Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        SizeButton(width: 400.w, height: 100.w, border: Border.all(), 
-          text: '回忆那么伤', color: Colors.red, textColor: Colors.white,
-          fontSize: 40.sp,
-          gradient: LinearGradient(colors: [Colors.red, Colors.blue]),
+        SizeButton(width: 400.w, height: 160.w, 
+          text: '回忆那么伤', decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(10), color: Colors.red), style: TextStyle(fontSize: 50.sp),
         ),
+        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        // PaddingButton(
+        //   padding: EdgeInsets.all(40.w),
+        //   text: '我是谁'
+        // ),
         Padding(padding: EdgeInsets.symmetric(vertical: 10)),
         SizeButton1(),
         Padding(padding: EdgeInsets.symmetric(vertical: 10)),
