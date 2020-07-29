@@ -10,15 +10,12 @@ class CustomButton extends StatelessWidget {
     this.text,
     this.decoration,
     this.style,
-    this.borderRadius,
     this.padding = EdgeInsets.zero,
-    this.child
+    this.child,
+    this.onTap
   }) : assert(text == null || child == null),
        assert(text != null || child != null),
        super(key: key);
-
-  ///圆角
-  final BorderRadius borderRadius;
 
   ///Decoration 样式
   final BoxDecoration decoration;
@@ -35,48 +32,51 @@ class CustomButton extends StatelessWidget {
   ///文本内容
   final String text;
 
+  final GestureTapCallback onTap;
+
   BoxDecoration decorationResult(BuildContext context,double height) {
-    print('$height, $borderRadius, ${Theme.of(context).primaryColor}');
     if (decoration == null) {
+
       return BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: borderRadius,
+        color: Theme.of(context).primaryColorDark,
+        borderRadius: BorderRadius.circular(height / 2),
       );
+      
     } else {
-      BoxDecoration newDecoration;
-    
-      newDecoration = decoration.copyWith(
-        color: decoration.color ?? Theme.of(context).primaryColor,
-        borderRadius: decoration.borderRadius ?? borderRadius
+
+      return decoration.copyWith(
+        color: decoration.color ?? Theme.of(context).primaryColorDark
       );
 
-      return newDecoration;
     }
   }
   
   @override
   Widget build(BuildContext context) {
 
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return DecoratedBox(
-          decoration: decorationResult(context, constraints.minHeight),
-          child: Padding(
-            padding: padding,
-            child: child ?? Center(
-              widthFactor: 1, 
-              heightFactor: 1,
-              child: DefaultTextStyle(
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28.w,
-                ), 
-                child: Text('$text', style: style)
-              )
-            ),
-          )
-        );
-      },
+    return GestureDetector(
+      onTap: onTap,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return DecoratedBox(
+            decoration: decorationResult(context, constraints.minHeight),
+            child: Padding(
+              padding: padding,
+              child: Center(
+                widthFactor: 1, 
+                heightFactor: 1,
+                child: DefaultTextStyle(
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28.w,
+                  ), 
+                  child: child ?? Text('$text', style: style)
+                )
+              ),
+            )
+          );
+        },
+      ),
     );
   }
 }
@@ -86,12 +86,12 @@ class SizeButton extends CustomButton {
     Key key,
     @required this.width,
     @required this.height,
-    BorderRadius borderRadius,
     BoxDecoration decoration,
     TextStyle style,
     String text,
-    Widget child
-  }) : super(key: key, borderRadius: borderRadius ?? BorderRadius.circular(height / 2), decoration: decoration, style: style, text: text, child: child);
+    Widget child,
+    GestureTapCallback onTap
+  }) : super(key: key, decoration: decoration.copyWith(borderRadius: BorderRadius.circular(height / 2)), style: style, text: text, child: child, onTap: onTap);
 
   final double width;
   final double height;
@@ -109,15 +109,14 @@ class SizeButton extends CustomButton {
 class PaddingButton extends CustomButton {
   PaddingButton({
     Key key,
-    @required this.padding,
+    EdgeInsets padding,
     BorderRadius borderRadius,
     BoxDecoration decoration,
     TextStyle style,
     String text,
-    Widget child
-  }) : super(key: key, borderRadius: borderRadius, decoration: decoration, style: style, text: text, child: child);
-
-  final EdgeInsets padding;
+    Widget child,
+    GestureTapCallback onTap
+  }) : super(key: key, padding: padding, decoration: decoration, style: style, text: text, child: child, onTap: onTap);
 
   Widget build(BuildContext context) {
     return super.build(context);

@@ -1,3 +1,8 @@
+import 'package:demo/base-lib/components/chat/chat_message.dart';
+import 'package:demo/base-lib/components/chat/chat_message_tooltip.dart';
+import 'package:demo/base-lib/components/chat/chat_text_message.dart';
+import 'package:demo/base-lib/components/chat/chat_voice_message.dart';
+import 'package:demo/base-lib/components/temp.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:demo/fpdx/uikit/action_sheet/action_sheet.dart';
@@ -34,10 +39,19 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: BaseWidget(),
         ),
-        backgroundColor: Colors.yellow,
+        backgroundColor: Color(0xFFF9F9FB),
       ),
     );
   }
+}
+
+class Test {
+  static const name = 's';
+  Test({
+    this.value = 2
+  });
+
+  final int value;
 }
 
 class BaseWidget extends StatelessWidget {
@@ -45,30 +59,21 @@ class BaseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334);
 
-
     return Column(
       children: <Widget>[
-        // SettingCell(),
-        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        SizeButton(width: 400.w, height: 160.w, 
-          text: '回忆那么伤', decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(10), color: Colors.red), style: TextStyle(fontSize: 50.sp),
-        ),
-        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        // PaddingButton(
-        //   padding: EdgeInsets.all(40.w),
-        //   text: '我是谁'
-        // ),
-        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        SizeButton1(),
-        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        SizeButton2(),
-        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        SizeButton3(),
-        SizeButton4()
+        ChatTextMessage(text: '手机端[犯困]', isSelf: true, state: ChatMessageState.fail,),
+        ChatTextMessage(text: '你在说什么', isSelf: false, state: ChatMessageState.fail),
+        ChatVoiceMessage(src: 'https://oss.pocketuniversity.cn/media/2019-07-25/5d391b24b14bf.mp3?duration=3312', isSelf: true),
+        ChatVoiceMessage(src: 'https://oss.pocketuniversity.cn/media/2019-07-25/5d391b24b14bf.mp3?duration=3312', isSelf: false)
+        // MessageTooltip()
+        // Form(),
+        // TextFormField
       ],
     );
   }
 }
+
+
 
 void main() => runApp(MyApp());
 
