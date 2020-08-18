@@ -6,6 +6,9 @@ import 'package:demo/base-lib/components/chat_message/chat_text_message.dart';
 import 'package:demo/base-lib/components/chat_message/chat_time_message.dart';
 import 'package:demo/base-lib/components/chat_message/chat_voice_message.dart';
 import 'package:demo/base-lib/components/temp.dart';
+import 'package:demo/base-lib/view/temp.dart';
+import 'package:demo/fpdx/constants/style.dart';
+import 'package:demo/pub-components/easy-refresh.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:demo/fpdx/uikit/action_sheet/action_sheet.dart';
@@ -15,6 +18,12 @@ import 'package:demo/fpdx/components/task.dart';
 import 'package:demo/base-lib/view/context.dart';
 import 'package:demo/fpdx/components/setting-cell.dart';
 import 'package:demo/base-lib/components/custom-button.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
+import 'package:flutter_easyrefresh/material_footer.dart';
+import 'dart:ui' as ui show window;
+
+
 
 
 
@@ -63,87 +72,227 @@ class BaseWidget extends StatelessWidget {
         //   valueColor: AlwaysStoppedAnimation(Colors.blue),
         // ),
         // //进度条显示50%
-        ClipPath(
-          clipper: MyClipper(),
-          child: Image.network('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG', width: 200, height: 200)
+        Container(
+          width: double.infinity,
+          height: 200.w,
+          alignment: Alignment.center,
+          color: Colors.lightGreen,
+          child: Text('列表组件', style: TextStyle(fontSize: 40.sp, color: Colors.white)),
         ),
-        SizedBox(height: 20),
-        Image.network('https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG', width: 200, height: 200)
-
-
+        
+// LineAnimate(),
+        Expanded(
+          child: _Example(),
+        )
       ],
     );
   }
 }
 
-class MyClipper extends CustomClipper<Path> {
-  MyClipper();
+class LineAnimate extends StatefulWidget {
+  @override
+  _LineAnimateState createState() => _LineAnimateState();
+}
+
+class _LineAnimateState extends State<LineAnimate> with TickerProviderStateMixin{
+
+  AnimationController controller;
+  Animation<double> animation;
+  
 
   @override
-  getClip(Size size) {
-    Path path = Path();
+  void initState() {
+    super.initState();
 
-    double width = size.width;
-    double height = size.height;
+    controller = new AnimationController(
+        duration: const Duration(milliseconds: 800), vsync: this);
 
-    //圆
-    /// temp.addOval(Rect.fromLTWH(0, 0, size.width / 2, size.height / 2));
-    
-    //弧线
-    // path.addArc(Rect.fromLTWH(0, 0, size.width, size.height), 0 , math.pi * 2);
+    animation = Tween<double>(
+      begin: 4.w, 
+      end: MediaQueryData.fromWindow(ui.window).size.width
+    ).animate(
+      CurvedAnimation(parent: controller, curve: Curves.ease)
+    )..addListener(() {
+      setState(() {});
+    })..addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.repeat();
+      }
+    });
 
-    //基于已有路径变化
-    // Path temp = Path();
-    // path.addPath(temp, Offset(size.width / 3, size.height / 3));
-
-    //多边形
-    // path.addPolygon([
-    //   Offset(0,  height / 3),
-    //   Offset(width,  height / 3),
-    //   Offset(0,  height),
-    //   Offset(width / 2,  0),
-    //   Offset(width,  height),
-    // ], true);
-
-    //矩形
-    // path.addRect(Rect.fromLTWH(0, 0, size.width / 2, size.height / 2));
-
-    //圆角矩形
-    // path.addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, size.width / 2, size.height / 2), Radius.circular(20)));
-
-    //路径
-    // arcTo;arcToPoint;conicTo;cubicTo;
-    /// 特殊介绍：贝塞尔曲线: conicTo(一控点，两定点，一权重);cubicTo(两控点，两定点);quadraticBezierTo(一控点，两定点，权重为1)
-    /// 两定点(一当前点，一指定点)
-    /// path.moveTo(0, height / 2);
-    /// path.conicTo(width / 4, height/ 4, width, height / 2, 2);
-    /// path.moveTo(0, width / 2);
-    /// path.cubicTo(width / 2, -height, width / 2, height * 2, width, height/ 2);
-    /// 路径方法大都前面可以加relative，如relativearcToPoint, 但好像会直接连接前后两点
-    
-    // path.arcTo(Rect.fromLTWH(0, 0, size.width / 2, size.height / 2), 0, math.pi / 2, true);
-    // path.arcToPoint(Offset(width / 4, height), radius: Radius.circular(20), rotation: 40, clockwise: false);
-    // path.conicTo(width, height, width / 5 * 4, height /5 * 4, 0.5);
-    // path.cubicTo(width * 1.2, height / 2, width / 3 * 2, height / 12 * 5, width, height / 3);
-    // path.lineTo(width / 4 * 3, 0);
-
-    //获取边界信息，贝塞尔控制点也算
-    //print('${path.getBounds()}'); 
-    // path.quadraticBezierTo(width, height, width / 5 * 4, height /5 * 4);
-
-    path.moveTo(130,32);
-    path.cubicTo(19.709, -0.353,31.226,6.485,40,17);
-    path.cubicTo(34.112,40.881, -19.137,114.545,-48,134);
-    path.cubicTo(7.771,81.072,32.297,43.787,62,50);
-    path.cubicTo(15.135,3.166,22.896,13.013,33,21);
-    path.cubicTo(101.212,48.592,110.287,41.169,130,32);
-    path.close();
-    return path;
+    controller.forward();
   }
 
   @override
-  bool shouldReclip(CustomClipper oldClipper) => false;
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: animation.value,
+      height: 10.w,
+      color: MyColors.primary
+    );
+  }
 }
+
+
+class _Example extends StatefulWidget {
+  @override
+  _ExampleState createState() {
+    return _ExampleState();
+  }
+}
+
+class _ExampleState extends State<_Example> {
+  
+  EasyRefreshController _controller;
+
+  // 条目总数
+  int _count = 20;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = EasyRefreshController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+  //   List<String> addStr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+  // List<String> str = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+  // GlobalKey<EasyRefreshState> _easyRefreshKey =
+  //     new GlobalKey<EasyRefreshState>();
+  // GlobalKey<RefreshHeaderState> _headerKey =
+  //     new GlobalKey<RefreshHeaderState>();
+  // GlobalKey<RefreshFooterState> _footerKey =
+  //     new GlobalKey<RefreshFooterState>();
+
+
+  //   return new EasyRefresh(
+  //       key: _easyRefreshKey,
+  //       behavior: ScrollOverBehavior(),
+  //       refreshHeader: ClassicsHeader(
+  //         key: _headerKey,
+  //         bgColor: Colors.transparent,
+  //         textColor: Colors.black87,
+  //         moreInfoColor: Colors.black54,
+  //         showMore: true,
+  //       ),
+  //       refreshFooter: ClassicsFooter(
+  //         key: _footerKey,
+  //         bgColor: Colors.transparent,
+  //         textColor: Colors.black87,
+  //         moreInfoColor: Colors.black54,
+  //         showMore: true,
+  //       ),
+  //       child: new ListView.builder(
+  //           //ListView的Item
+  //           itemCount: str.length,
+  //           itemBuilder: (BuildContext context, int index) {
+  //             return new Container(
+  //                 height: 70.0,
+  //                 child: Card(
+  //                   child: new Center(
+  //                     child: new Text(
+  //                       str[index],
+  //                       style: new TextStyle(fontSize: 18.0),
+  //                     ),
+  //                   ),
+  //                 ));
+  //           }),
+  //       onRefresh: () async {
+  //         await new Future.delayed(const Duration(seconds: 1), () {
+  //           setState(() {
+  //             str.clear();
+  //             str.addAll(addStr);
+  //           });
+  //         }
+  //     );
+  //       });
+
+    return EasyRefresh.custom(
+          enableControlFinishRefresh: false,
+          enableControlFinishLoad: true,
+          controller: _controller,
+          header: CustomRefreshHeader(
+            extent: 10.w
+          ),
+          
+          // CustomHeader(
+          //   extent: 10.w,
+          //   headerBuilder: (context, refreshState, pulledExtent, refreshTriggerPullDistance, refreshIndicatorExtent, axisDirection, float, completeDuration, enableInfiniteRefresh, success, noMore) {
+          //       print('$refreshState, refreshState');
+
+          //       return refreshState == RefreshMode.armed || refreshState == RefreshMode.refresh
+          //           ? LineAnimate()
+          //           : SizedBox();
+          //   }
+          // ),
+          footer: ClassicalFooter(),
+          onRefresh: () async {
+            await Future.delayed(Duration(seconds: 2), () {
+              print('onRefresh');
+              setState(() {
+                _count = 20;
+              });
+              _controller.resetLoadState();
+            });
+          },
+          onLoad: () async {
+            await Future.delayed(Duration(seconds: 2), () {
+              print('onLoad');
+              setState(() {
+                _count += 10;
+              });
+              _controller.finishLoad(noMore: _count >= 40);
+            });
+          },
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return Container(
+                    width: 60.0,
+                    height: 60.0,
+                    child: Center(
+                      child: Text('$index'),
+                    ),
+                    color:
+                        index % 2 == 0 ? Colors.grey[300] : Colors.transparent,
+                  );
+                },
+                childCount: _count,
+              ),
+            ),
+          ],
+        );
+
+    // return Scaffold(
+    //     appBar: AppBar(
+    //       title: Text("EasyRefresh"),
+    //     ),
+    //     body: ,
+    //     persistentFooterButtons: <Widget>[
+    //       FlatButton(
+    //           onPressed: () {
+    //             _controller.callRefresh();
+    //           },
+    //           child: Text("Refresh", style: TextStyle(color: Colors.black))),
+    //       FlatButton(
+    //           onPressed: () {
+    //             _controller.callLoad();
+    //           },
+    //           child: Text("Load more", style: TextStyle(color: Colors.black))),
+    //     ]);
+  }
+}
+
+
 
 
 

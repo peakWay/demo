@@ -32,6 +32,8 @@ dependencies:
 
   extended_text: 0.7.1
 
+  flutter_easyrefresh: ^2.1.5
+
 
 dev_dependencies:
   flutter_test:
