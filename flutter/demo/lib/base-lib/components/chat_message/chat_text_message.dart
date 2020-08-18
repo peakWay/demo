@@ -1,16 +1,16 @@
 
-
+import 'package:demo/base-lib/components/chat_message/chat_message_avatar.dart';
+import 'package:demo/base-lib/components/chat_message/chat_message_triangle.dart';
+import 'package:demo/fpdx/view/emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:demo/base-lib/components/chat/chat_message_avatar.dart';
-import 'package:demo/base-lib/components/chat/chat_message_triangle.dart';
-import 'package:demo/fpdx/utils/voice.dart';
+import 'package:flutter/services.dart';
+import 'package:extended_text/extended_text.dart';
 import './chat_message.dart';
 
-class ChatVoiceMessage extends StatelessWidget {
-  ChatVoiceMessage({
-    Key key,
-    @required this.src,
+class ChatTextMessage extends StatelessWidget {
+  ChatTextMessage({
+    this.text,
     this.isSelf = false,
     this.isSuper = false,
     this.state,
@@ -19,10 +19,10 @@ class ChatVoiceMessage extends StatelessWidget {
     this.onRevoke,
     this.headerSlot,
     this.padding
-  }) : assert(src != null),
-       super(key: key);
+  });
 
-  final String src;
+
+  final String text;
   final bool isSelf;
   final bool isSuper;
   final ChatMessageState state;
@@ -49,6 +49,13 @@ class ChatVoiceMessage extends StatelessWidget {
       avatarLongPress: avatarLongPress,
       tooltips: {
         TooltipModel(
+          label: '复制', 
+          onTap: (){
+            print('复制');
+            Clipboard.setData(ClipboardData(text: text));
+          }
+        ),
+        TooltipModel(
           label: '删除', 
           onTap: onDelete
         ),
@@ -59,10 +66,9 @@ class ChatVoiceMessage extends StatelessWidget {
       },
       builder: (BuildContext context) {
         return ChatMessageTriangle(
-          child: VoiceMessage(
-            src: src,
+          child: TextMessage(
+            text: text,
             color: color,
-            // direction: isSelf ? MainAxisAlignment.start,
             textColor: isSelf ? Colors.white : Color(0xFF333333),
           ),
           color: color,
@@ -73,54 +79,39 @@ class ChatVoiceMessage extends StatelessWidget {
   }
 }
 
-class VoiceMessage extends StatefulWidget {
-  VoiceMessage({
-    Key key,
-    @required this.src,
+class TextMessage extends StatelessWidget {
+  TextMessage({
+    this.text,
     this.color,
     this.textColor
-  }) : super(key: key);
+  });
 
-  final String src;
+  final String text;
+
   final Color color;
+
   final Color textColor;
-
-  @override
-  _VoiceMessageState createState() => _VoiceMessageState();
-}
-
-class _VoiceMessageState extends State<VoiceMessage> {
-
-  int duration;
-
-  @override
-  void initState() {
-    super.initState();
-
-    //计算语音宽度
-    duration = VoiceUtils.getSecondDurationFromSrc(widget.src);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(maxWidth: 490.w),
-      height: 78.w,
       padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.w),
       decoration: BoxDecoration(
-        color: widget.color,
+        color: color,
         borderRadius: BorderRadius.circular(50.w)
       ),
-      child: Row(
-        // mainAxisAlignment: ,
-        children: <Widget>[
-          Icon(Icons.voice_chat, color: widget.textColor, size: 28.sp),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18.w),
-            child: Text('${duration}s', style: TextStyle(color: widget.textColor))
-          )
-        ],
-      )
+      child: 
+      ExtendedText(
+        text != null && text.length > 0
+            ? text
+            : '',
+        style: TextStyle(color: textColor, fontSize: 28.sp, height: 1.3),
+        specialTextSpanBuilder: MySpecialTextSpanBuilder(),
+      ),
     );
   }
 }
+
+
+

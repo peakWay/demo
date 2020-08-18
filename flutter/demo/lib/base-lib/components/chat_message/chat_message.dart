@@ -1,6 +1,7 @@
 
 
-import 'package:demo/base-lib/components/chat/chat_message_tooltip.dart';
+import 'package:demo/base-lib/components/chat_message/chat_message_tooltip.dart';
+import 'package:demo/fpdx/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,6 +42,7 @@ class ChatMessage extends StatefulWidget {
     this.messageLongPress,
     this.tooltips,
     this.createdAt,
+    this.nickname,
     this.isSuper,
     @required this.builder
   }) : assert(builder != null),
@@ -85,6 +87,8 @@ class ChatMessage extends StatefulWidget {
   ///是否是管理员
   final bool isSuper;
 
+  ///发消息人昵称
+  final String nickname;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -109,7 +113,7 @@ class _ChatMessageState extends State<ChatMessage> {
       widget.tooltips.removeWhere((element) => element.label == '撤回');
     }
 
-    if (widget.tooltips == null) return;
+    if (widget.tooltips.length == 0) return;
 
     Offset offset = context.findRenderObject().localToGlobal(Offset(0.0, context.size.height));
     Size size = context.size;
@@ -166,7 +170,7 @@ class _ChatMessageState extends State<ChatMessage> {
           return _buildGeneralMessage();
         break;
       case ChatMessageState.revoke:
-          return _buildGeneralMessage();
+          return _buildRevokeMessage();
         break;
       case ChatMessageState.error:
           return _buildFailMessage();
@@ -176,6 +180,14 @@ class _ChatMessageState extends State<ChatMessage> {
     }
   }
 
+  //撤回消息
+  Widget _buildRevokeMessage() {
+    return Center(
+      child: Text('${widget.isSelf ? '你' : widget.nickname ?? ''}撤回了一条消息', style: TextStyle(color: MyColors.textMinor, fontSize: 26.sp, height: 1.3)),
+    );
+  }
+
+  //失败或错误消息
   Widget _buildFailMessage() {
     return Row(
       textDirection: textDirection,
@@ -200,26 +212,28 @@ class _ChatMessageState extends State<ChatMessage> {
   Widget build(BuildContext context) {
     return Padding(
       padding: widget.padding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.w),
-      child: Row(
-        textDirection: textDirection,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          GestureDetector(
-            onTap: widget.avatarOnTap,
-            onLongPress: widget.avatarLongPress,
-            child: widget.avatarSlot,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(
-              children: <Widget>[
-                widget.headerSlot ?? SizedBox(),
-                _buildMessage()
-              ],
-            ),
+      child: widget.state == ChatMessageState.revoke
+        ? _buildMessage()
+        : Row(
+            textDirection: textDirection,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              GestureDetector(
+                onTap: widget.avatarOnTap,
+                onLongPress: widget.avatarLongPress,
+                child: widget.avatarSlot,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  children: <Widget>[
+                    widget.headerSlot ?? SizedBox(),
+                    _buildMessage()
+                  ],
+                ),
+              )
+            ],
           )
-        ],
-      ),
     );
   }
 }
