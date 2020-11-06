@@ -1,0 +1,13 @@
+
+.app {
+    text-align: center;
+    color: yellowgreen;
+    font-weight: bold;
+}
+
+.button {
+    height: 50px;
+    color: #fff;
+    background: skyblue;
+    line-height: 50px;
+}

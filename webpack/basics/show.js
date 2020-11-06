@@ -11,5 +11,7 @@ module.exports =  {
         console.log(temp)
         
         window.document.getElementById('js_app').innerText = 'Hello' + content + '!!!'
+
+        
     }
 }
