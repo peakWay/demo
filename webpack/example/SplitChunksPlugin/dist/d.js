@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{19:function(p,n,e){"use strict";e.r(n);var w=e(4);e(5),e(6);new w.a({el:"#app",render:p=>p(App)})}}]);
