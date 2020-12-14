@@ -1,0 +1,17 @@
+
+{
+    "plugins": [
+        "transform-runtime"
+    ],
+    "presets": [
+        [
+            "env"
+            // ,
+            // {
+            //     "modules": false
+            // }
+        ],
+        "stage-3",
+        "react"
+    ]
+}

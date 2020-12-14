@@ -6,11 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="app">
-        <div class=".btn">加载D</div>
-    </div>
-
-    <script src="/dist/common.js"></script>
-    <script src="/dist/c.js"></script>
+    <div id="body" style="width: 100%;height: 1000px;"></div>
 </body>
+<script>
+var watcher = document.getElementById("body");
+watcher.addEventListener('click', function(){
+    alert("2");
+});
+</script>
 </html>

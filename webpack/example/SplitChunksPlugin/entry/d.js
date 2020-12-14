@@ -5,6 +5,7 @@ import '../utils/utilB'
 
 import '../styles/b.css';
 
+
 new Vue({
     el: '#app',
     render: h => h(App)

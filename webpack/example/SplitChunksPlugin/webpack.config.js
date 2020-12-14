@@ -1,14 +1,17 @@
 
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const HappyPack = require('happypack')
 
+//webpack-bundle-analyzer [jsonFilePath] 可视化 
 
 module.exports =  {
     entry: {
         'a': './entry/a.js',
         'b': './entry/b.js',
         'c': './entry/c.js',
-        // 'd': './entry/d.js'
+        'd': './entry/d.js'
     },
     output: {
         filename: () => {
@@ -21,6 +24,10 @@ module.exports =  {
         // },
         path: path.resolve(__dirname, './dist')
     },
+    resolve: {
+        modules: [path.resolve(__dirname, 'node_modules')],
+        mainFields: ['jsnext:main', 'main'],
+    },
     module: {
         rules: [
             {
@@ -32,12 +39,28 @@ module.exports =  {
                     'sass-loader'
                 ]
             },
+            {
+                test: /\.js$/,
+                use: 
+                ['babel-loader'],
+                // ['happyPack/loader?id=babel'],
+                exclude: /node_modules/
+            },
+            {
+                test: /\.vue$/,
+                use: ['vue-loader'],
+            },
         ]
     },
     plugins: [
+        // new HappyPack({
+        //     id: 'babel',
+        //     loaders: ['babel-loader?cacheDirectory']
+        // }),
         new MiniCssExtractPlugin({
             filename: '[name].css'
         }),
+        new VueLoaderPlugin(),
     ],
     optimization: {
         splitChunks: {
