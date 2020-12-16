@@ -6,7 +6,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        'main': './main.js'
+        'main': './expand.js'
     },
     output: {
         filename: () => {
