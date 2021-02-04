@@ -38,6 +38,10 @@ class This extends React.Component {
         this.child = ref
     }
 
+    handleRefChild = () => {
+        this.refs.child.childMethod()
+    }
+
     render () {
         console.log(this, 'render')
         return (
@@ -45,7 +49,7 @@ class This extends React.Component {
                 <button onClick={this.funcA}>this.funcA</button>
                 <button onClick={() => this.funcA()}>{ '() => this.funcA()' }</button>
                 <button onClick={this.funcB}>this.funcB</button>
-                <Child onClick={funC}>
+                <Child onClick={funC} ref="child">
                     <div>点击</div>
                 </Child>
                 <Child onClick={funcD} onRef={this.bindRef}>
@@ -53,6 +57,7 @@ class This extends React.Component {
                 </Child>
                 <button onClick={funcD.bind(this)}>this.funcD</button>
                 <button onClick={this.handleChild}>父级操作子级点击</button>
+                <button onClick={this.handleRefChild}>父级通过ref操作子级点击</button>
             </div>
         )
     }
