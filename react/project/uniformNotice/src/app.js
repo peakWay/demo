@@ -1,9 +1,11 @@
 
 import * as React from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom'
-import NavLink from '@/components/nav-link/nav-link'
+import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
+import NavLink from '@/components/nav-link/nav-link';
+import routes from '@/router/index';
 
 import './app.scss';
+import ErrorPage from './components/error/error';
 
 const sideBarNav = [
     {
@@ -28,6 +30,8 @@ const sideBarNav = [
     }
 ]
 
+console.log(routes);
+
 const App = () => {
     
     return (
@@ -40,12 +44,29 @@ const App = () => {
                         ))
                     }
                 </div>
-            </div>
-            <Switch>
-                <Redirect exact to="/index" from="/" ></Redirect>
+                <div className="container">
+                    <Switch>
+                        <Redirect exact to="/index" from="/" ></Redirect>
 
-                
-            </Switch>
+                        {
+                            routes.map((route, i) => (
+                                <Route
+                                    path={route.path}
+                                    render={
+                                        (props) => {
+                                            <route.component {...props} />
+                                        }
+                                    }
+                                >
+
+                                </Route>
+                            ))
+                        }
+
+                        <Route component={ErrorPage}></Route>
+                    </Switch>
+                </div>
+            </div>
         </Router>
     )
 }

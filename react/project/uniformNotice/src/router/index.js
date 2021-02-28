@@ -1,8 +1,8 @@
 
-import IndexPage from '@/pages/index';
-import TemplatePage from '@/pages/template';
-import MarketingPage from '@/pages/marketing';
-import StatisticsPage from '@/pages/statistics';
+import IndexPage from '@/pages/index/index';
+import TemplatePage from '@/pages/template/template';
+import MarketingPage from '@/pages/marketing/marketing';
+import StatisticsPage from '@/pages/statistics/statistics';
 
 const routes = [
     {
@@ -26,3 +26,5 @@ const routes = [
         component: StatisticsPage
     }
 ]
+
+export default routes;

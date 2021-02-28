@@ -3,6 +3,8 @@
 .root-page {
     width: 100%;
     height: 100%;
+
+    display: flex;
 }
 
 .sidebar {
@@ -10,4 +12,9 @@
     height: 100%;
     padding-top: 10px;
     background: rgb(84, 92, 100);
+}
+
+.container {
+    flex: 1;
+    height: 100%;
 }
