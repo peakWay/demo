@@ -5,11 +5,16 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        'main': './main.js'
+        'main': './src/main.js'
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, '/dist')
+    },
+    resolve: {
+        alias: {
+            '@': '/src'
+        }
     },
     module: {
         rules: [
@@ -18,7 +23,7 @@ module.exports = {
                 use: [
                     miniCssExtractPlugin.loader,
                     'css-loader',
-                    'post-loader',
+                    'postcss-loader',
                     'sass-loader'
                 ]
             },

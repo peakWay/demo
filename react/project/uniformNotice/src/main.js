@@ -2,10 +2,8 @@
 import * as React from 'react'
 import { render } from 'react-dom'
 
-function App() {
-    return (
-        <div>我要开始写了</div>
-    )
-}
+import App from './app'
+
+import './style.scss';
 
 render(<App />, window.document.getElementById('app'))

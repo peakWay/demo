@@ -1,0 +1,17 @@
+
+.nav {
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    line-height: 60px;
+
+    &.active {
+        a {
+            color: #409EFF;
+        }
+    }
+}
+
+.link {
+    color: #fff;
+}
