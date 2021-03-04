@@ -91,7 +91,7 @@ class _MyWidgetState extends State<MyWidget> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    
+     
     animate = AnimationController(duration: Duration(seconds: 2), vsync: this)
         ..addListener(() {
           setState(() {

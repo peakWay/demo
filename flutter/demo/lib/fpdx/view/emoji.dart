@@ -318,11 +318,11 @@ class EmojiList extends StatelessWidget {
                         '发送',
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: AdaptationUtils.setSp(30)),
+                            fontSize: 15,
                       ),
                     ),
                   ),
-                ],
+                  )],
               ),
             )),
       ],
