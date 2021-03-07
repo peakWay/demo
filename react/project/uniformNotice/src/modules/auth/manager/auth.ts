@@ -4,14 +4,14 @@
 
 
 const Auth = {
-    isAuthenticated: true,
+    isAuthenticated: false,
 
-    login(cb) {
+    login(cb?: ()=> void) {
         this.isAuthenticated = true;
         cb && cb();
     },
 
-    logout(cb) {
+    logout(cb?: () => void) {
         this.isAuthenticated = false;
         cb && cb();
     }

@@ -1,31 +1,45 @@
 
 import * as React from 'react';
 import Sidebar from './components/sidebar/sidebar';
-import { HashRouter as Router, Redirect, Route, RouteComponentProps } from 'react-router-dom';
+import { HashRouter as Router, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import styles from './styles/app.scss';
 import Auth from './modules/auth/manager/auth';
 import routes from './router';
 import ErrorPage from './pages/error/error';
+import LoginPage from './pages/login/login';
 
+interface AuthRouteProps {
+    component: React.ComponentType,
+    path: string
+}
 
-const AuthRoute: React.FC<RouteComponentProps> = (props) => {
-    console.log(props, 'props.children')
+const AuthRoute: React.FC<AuthRouteProps> = ({component: Component, ...rest}) => {
+
+    return (
+        <Route 
+            {...rest}
+            render={(props) => (
+                !Auth.isAuthenticated 
+                ? <Redirect to={{
+                    pathname: "/login",
+                    state: { from: props.location.pathname }
+                  }} />
+                : <Component {...rest} />
+            )}
+        >    
+        </Route>
+    )
     
-
-    return Auth.isAuthenticated ? null : <Redirect to={'/login'} />;
 } 
 
-const App: React.FC = () => {
+const PageRoute: React.FC<RouteComponentProps> = (props) => {
     return (
-        <Router>
-            <Route 
-                path="/"
-                component={AuthRoute} 
-            />
+        <div className={styles.root}>
+            <Sidebar></Sidebar>
+            
+            <Switch>
+                <Redirect exact path="/" to="/index" />
 
-            <div className={styles.root}>
-                <Sidebar></Sidebar>
-                
                 {
                     routes.map((route, i) => (                        
                         <Route
@@ -37,8 +51,22 @@ const App: React.FC = () => {
                     ))
                 }
                 
-                <Route component={ErrorPage}></Route>
-            </div>
+                <Route component={ErrorPage} />
+            </Switch>
+        </div>
+    )
+}
+
+const App: React.FC = () => {
+    return (
+        <Router>
+            <Switch>
+
+                <Route exact path="/login" component={LoginPage}></Route>
+
+                
+                <AuthRoute path="/" component={PageRoute}></AuthRoute>
+            </Switch>
         </Router>
     )
 }

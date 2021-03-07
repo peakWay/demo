@@ -27,9 +27,7 @@ module.exports = {
                         loader: 'css-loader',
                         options: {
                             modules: {
-                                auto: (resourcePath) => {
-                                    return !resourcePath.endsWith(".global.css")
-                                }
+                                auto: (resourcePath) => !resourcePath.endsWith(".global.css")
                             }
                         }
                     },
@@ -44,7 +42,8 @@ module.exports = {
             },
             { 
                 test: /\.tsx?$/, 
-                loader: 'awesome-typescript-loader' 
+                use: ['babel-loader']
+                // loader: 'awesome-typescript-loader' 
             }
         ]
     },

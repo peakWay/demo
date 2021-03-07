@@ -24,7 +24,7 @@
         "@/*": ["./src/*"],
         "@types/react": ["node_modules/@types/react"]
       }
-    },
+    },      
     "exclude": [
       "node_modules",
       "dist"
