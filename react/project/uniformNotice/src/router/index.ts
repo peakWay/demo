@@ -6,10 +6,6 @@ import StatisticsPage from '@/pages/statistics/statistics';
 
 const routes = [
     {
-        path: '/',
-        
-    },
-    {
         path: '/index',
         component: IndexPage
     },

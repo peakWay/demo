@@ -1,28 +1,38 @@
 
 const path = require('path');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        'main': './src/main.js'
+        'main': './src/main.tsx'
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, '/dist')
+        path: path.resolve(__dirname, 'dist')
     },
     resolve: {
         alias: {
             '@': '/src'
-        }
+        },
+        extensions: ['.ts', '.tsx', '.js']
     },
     module: {
         rules: [
             {
                 test: /\.(sa|sc|c)ss/,
                 use: [
-                    miniCssExtractPlugin.loader,
-                    'css-loader',
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                auto: (resourcePath) => {
+                                    return !resourcePath.endsWith(".global.css")
+                                }
+                            }
+                        }
+                    },
                     'postcss-loader',
                     'sass-loader'
                 ]
@@ -31,13 +41,17 @@ module.exports = {
                 test: /\.js/,
                 use: ['babel-loader'],
                 exclude: /node_modules/
+            },
+            { 
+                test: /\.tsx?$/, 
+                loader: 'awesome-typescript-loader' 
             }
         ]
     },
     plugins: [
-        new miniCssExtractPlugin(),
-        new htmlWebpackPlugin({
-            template: './index.html'
+        new MiniCssExtractPlugin(),
+        new HtmlWebpackPlugin({
+            template: 'index.html'
         })
     ]
 }
