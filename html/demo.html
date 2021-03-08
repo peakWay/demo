@@ -5,8 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+div {
+  width: 300px;
+  height: 100px;
+  overflow: auto;
+}
+
+img {
+  width: 256px;
+  height: 192px;
+  position: absolute;
+}
+
+.header {
+  position: absolute;
+  background: yellow;
+  height: 40px;
+  width: 300px;
+}
+
+.place {
+    height:  40px;
+}
+
+.box {
+  height: 1000px;
+  background: pink;
+}
+</style>
 <body>
-    <div id="body" style="width: 100%;height: 1000px;"></div>
+    <div>
+      <span class="header">我是头部区域</span>
+        <div class="place"></div>
+        <!-- <img src="https://oss.pocketuniversity.cn/media/2019-09-19/5d82dea62ca69.JPG" /> -->
+        <div class="box">
+        睡觉哦发生纠纷睡觉哦发生翦佛教送大家放松房间
+        </dib>
+    </div>
+    <!-- <div id="body" style="width: 100%;height: 1000px;"></div> -->
 </body>
 <script>
 var watcher = document.getElementById("body");

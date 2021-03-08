@@ -5,7 +5,8 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        'index': './index.js'
+        // 'index': './index.js',
+        'example': './example.js'
     },
     output: {
         filename: () => {

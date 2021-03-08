@@ -13,3 +13,10 @@ export const themes = {
 export const ThemeContext = React.createContext(
     themes.dart
 )
+
+export const ThemeFuncContext = React.createContext(
+    {
+        theme: themes.dart,
+        changeTheme: () => {}
+    }
+)

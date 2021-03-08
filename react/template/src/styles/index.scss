@@ -1,0 +1,36 @@
+
+@import '~antd/dist/antd.css';
+
+@import './antd.scss';
+
+
+//自己定义的默认搭配
+.company {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+
+    .logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+    }
+
+    &-name {
+        font-family: cursive;
+        font-size: 20px;
+        color: #fff;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+}
+
+.main-container {
+    background: #f8f3e9;
+}
+
+.main-content {
+    padding: 24px;
+    margin: 0;
+    min-height: 280px;
+}

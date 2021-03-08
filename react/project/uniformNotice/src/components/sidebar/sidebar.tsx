@@ -3,7 +3,7 @@
 
 import styles from './sidebar.scss';
 
-import * as React from "react";
+import React from "react";
 import NavLink from '../nav-link/nav-link';
 
 interface IProps {

@@ -1,0 +1,33 @@
+
+
+/** 
+* 该文件用于覆盖antd默认值
+*/
+
+@import 'vars.scss';
+
+.header {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 30px;
+    // background: $primary-color;
+}
+
+.sider {
+    background: #35414f;
+}
+
+.sider-menu {
+    background: inherit;
+}
+
+.sider-menu-item {
+    a {
+        color: #fff;
+    }
+
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #2b303b;
+}

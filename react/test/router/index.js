@@ -23,6 +23,13 @@ let SecondComponent = React.lazy(() => import(/* webpackChunkName: "second" */'.
 
 console.log(SecondComponent, 'SecondComponent')
 
+let AlwaysComponent = (props) => {
+    console.log(props, 'match')
+    return (
+        <div>我一直都在</div>
+    )
+}
+
 
 class App extends Component{
     render () {
@@ -41,8 +48,13 @@ class App extends Component{
                     <Switch>
                         <Route exact path="/" component={props => <FirstComponent link></FirstComponent>}></Route>
                         <Route path="/about" component={SecondComponent}></Route>
+
+                        <Route component={AlwaysComponent}></Route>
+
                     </Switch>
+
                 </Suspense>
+
             </Router>
         )
     }

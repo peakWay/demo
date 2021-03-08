@@ -1,5 +1,5 @@
 
-import * as React from 'react';
+import React from 'react';
 import Sidebar from './components/sidebar/sidebar';
 import { HashRouter as Router, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import styles from './styles/app.scss';

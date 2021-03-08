@@ -3,7 +3,7 @@
 
 import styles from './nav-link.scss';
 import { Route, Link } from 'react-router-dom';
-import * as React from "react";
+import React from "react";
 import classnames from 'classnames';
 
 interface IProps {
