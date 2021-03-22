@@ -11,6 +11,9 @@ module.exports = {
         path: path.resolve(__dirname, './dist')
     },
     resolve: {
+        alias: {
+            '@': '/'
+        },
         extensions: ['.ts', '.tsx', '.js']
     },
     module: {

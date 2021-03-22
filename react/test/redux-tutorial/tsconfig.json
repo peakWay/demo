@@ -21,7 +21,7 @@
         "global.d.ts"
       ],
       "paths": {
-        "@/*": ["./src/*"],
+        "@/*": ["./*"],
         "@types/react": ["node_modules/@types/react"]
       }
     },      

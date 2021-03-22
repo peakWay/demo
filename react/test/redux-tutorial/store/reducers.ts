@@ -2,7 +2,7 @@
 import { ADD_TODO, TOOGLE_TODO, SET_VISIBLE_FILTER, VisibilityFilters }  from './action';
 import { combineReducers } from 'redux';
 
-interface todoModel {
+export interface todoModel {
     text: string,
     completed: boolean
 }

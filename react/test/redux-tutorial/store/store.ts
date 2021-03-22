@@ -1,7 +1,12 @@
 
 import { createStore } from 'redux';
-import todoApp from './reducers';
+import todoApp, { todoModel } from './reducers';
 import { addTodo, toggleTodo, setVisibleFilter, VisibilityFilters } from './action';
+
+export interface AppState {
+    visibilityFilter: string,
+    todos: todoModel[]
+}
 
 let store = createStore(todoApp, {
     visibilityFilter: 'SHOW_ALL',
@@ -18,3 +23,5 @@ store.dispatch(setVisibleFilter(VisibilityFilters.SHOW_COMPLETED))
 
 //取消监听
 unsubscribe()
+
+export default store;
