@@ -12,6 +12,8 @@ class DayTime {
     this._second = second;
   }
 
+  DayTime.zero(): this(0, 0, 0, 0);
+
   DayTime.fromDuration(Duration duration) {
     List<String> parts = duration.toString().split(':');
 
@@ -32,6 +34,8 @@ class DayTime {
     this._minute = int.parse(parts[1]);
     this._second = double.parse(parts[2]).toInt();
   }
+
+  bool get isZero => this.day == 0 && this.hour == 0 && this.minute  == 0 && this.second == 0;
 
   String format([String formatString]) {
     formatString ??= formatDefault;

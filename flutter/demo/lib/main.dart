@@ -117,57 +117,10 @@ import 'package:flutter/material.dart';
 // void main() => runApp(MyApp());
 
 import 'package:flutter/material.dart';
+import 'base-lib/components/countdown/extend.dart';
 import 'base-lib/core/eventbus.dart';
 
-mixin CountdownState<T extends StatefulWidget> on State<T> {
-  int target;
-  Timer _timer;
 
-  //正在进行中
-  @protected
-  void onCountdownTimeout() {}
-
-  //传入的初始时间超时
-  @protected
-  void onCountdownInitOvertime() {}
-
-  @protected
-  void onCountdownChange(Duration duration) {}
-
-  @override
-  void initState() {
-    print('我的状态 initState');
-    super.initState();
-
-    if (_checkIsOver()) 
-      return onCountdownInitOvertime(); 
-
-    Duration diff =  new DateTime.fromMillisecondsSinceEpoch(target).difference(new DateTime.now());
-    print('$diff, 时间差');
-    
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) { 
-      if (_checkIsOver()) {
-        timer.cancel();
-        onCountdownTimeout();
-      } else {
-        diff = diff - Duration(seconds: 1);
-        onCountdownChange(diff);
-      } 
-    });
-  }
-
-  bool _checkIsOver() {
-    return new DateTime.now().millisecondsSinceEpoch > target;
-  }
-
-  @override
-  void dispose() {
-    print('MyState dispose');
-    super.dispose();
-
-    _timer.cancel();
-  }
-}
 
 mixin OtherState<T extends StatefulWidget> on State<T> {
   void initState() {
@@ -182,27 +135,16 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin, CountdownState, OtherState {
+class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin, OtherState {
   
   AnimationController controller;
   Animation<Color> animation;
   int count = 0;
   Map map;
-  int target = 1616340544000;
   String remainTime;
-
-  void onCountdownChange(Duration duration) {
-    // Map map = DurationUtils.dateMap(duration);
-
-    setState(() {
-      remainTime = DayTime.fromDuration(duration).format();
-    });
-  }
 
   // @override
   void initState() {
-
-    
 
     super.initState();
 
@@ -239,21 +181,19 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin, Coun
       });
     });
 
+    print('${animation is Listenable}, 啥');
+
     controller.forward();
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   controller.dispose();
-  //   print('MyApp dispose');
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
   
   @override
   Widget build(BuildContext context) {
-
-  // AnimatedWidget
-        
     return MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(
@@ -272,24 +212,37 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin, Coun
             },
             child: Column(
               children: [
-                // Builder(
-                //   builder: (BuildContext context) {
-                //     return Container(
-                //       color: animation.value,
-                //       child: Text(controller.value.toString()),
-                //     );
-                //   }
-                // ),
 
-                Container(
-                  color: Colors.yellow,
-                  child: Text('倒计时: $remainTime')
-                )
+                MyCountdown(161648928000)
               ],
             )
           ),
         )
       )
+    );
+  }
+}
+
+class MyCountdown extends CountdownWidget {
+  MyCountdown(target) : super(target: target);
+
+  @override
+  void initOvertime() {
+    
+  }
+
+  @override
+  void timeout() {
+    print('时间到了');
+  }
+
+  @override
+  Widget build(BuildContext context, DayTime remain) {
+    if (remain == null) return null;
+
+    return Container(
+      color: Colors.red,
+      child: Text(remain.isZero ? '时间结束' : remain.format('D天 HH:mm:ss')),
     );
   }
 }
