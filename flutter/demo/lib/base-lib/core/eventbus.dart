@@ -48,6 +48,34 @@ class EventBus {
 
   //触发订阅事件
   void emit(eventName, [arg]) {
-    
+    var list = _emap[eventName];
+
+    if (list == null) return;
+
+    //这里不能将定义var i = list.length - 1
+    int len = list.length - 1;
+    //反向遍历，防止订阅者在回调中移除自身带来的下标错位 
+    for (var i = len; i > -1; --i) {
+      list[i](arg);
+    }
+  }
+}
+
+//ChangeNotifier flutter已经自带，我自己写个简易实现
+class SimpleChangeNotifier  extends Listenable {
+  List listeners = [];
+  
+  @override
+  void addListener(void Function() listener) {
+    listeners.add(listener);
+  }
+
+  @override
+  void removeListener(void Function() listener) {
+    listeners.remove(listener);
+  }
+
+  void notifyListeners() {
+    listeners.forEach((item) { item(); });
   }
 }

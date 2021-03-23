@@ -1,12 +1,11 @@
 
 // import 'dart:async';
 
-import 'dart:async';
-import 'dart:collection';
 
-import 'package:demo/base-lib/utils/toast.dart';
+import 'dart:async';
+
+import 'package:demo/base-lib/utils/duration.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 // abstract class TimerState<T extends StatefulWidget> extends State<T> {
 
 //   Timer timer;
@@ -118,92 +117,188 @@ import 'package:provider/provider.dart';
 // void main() => runApp(MyApp());
 
 import 'package:flutter/material.dart';
+import 'base-lib/core/eventbus.dart';
+
+mixin CountdownState<T extends StatefulWidget> on State<T> {
+  int target;
+  Timer _timer;
+
+  //正在进行中
+  @protected
+  void onCountdownTimeout() {}
+
+  //传入的初始时间超时
+  @protected
+  void onCountdownInitOvertime() {}
+
+  @protected
+  void onCountdownChange(Duration duration) {}
+
+  @override
+  void initState() {
+    print('我的状态 initState');
+    super.initState();
+
+    if (_checkIsOver()) 
+      return onCountdownInitOvertime(); 
+
+    Duration diff =  new DateTime.fromMillisecondsSinceEpoch(target).difference(new DateTime.now());
+    print('$diff, 时间差');
+    
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) { 
+      if (_checkIsOver()) {
+        timer.cancel();
+        onCountdownTimeout();
+      } else {
+        diff = diff - Duration(seconds: 1);
+        onCountdownChange(diff);
+      } 
+    });
+  }
+
+  bool _checkIsOver() {
+    return new DateTime.now().millisecondsSinceEpoch > target;
+  }
+
+  @override
+  void dispose() {
+    print('MyState dispose');
+    super.dispose();
+
+    _timer.cancel();
+  }
+}
+
+mixin OtherState<T extends StatefulWidget> on State<T> {
+  void initState() {
+    print('其他状态 initState');
+    super.initState();
+  }
+}
+
 
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin, CountdownState, OtherState {
+  
+  AnimationController controller;
+  Animation<Color> animation;
+  int count = 0;
+  Map map;
+  int target = 1616340544000;
+  String remainTime;
+
+  void onCountdownChange(Duration duration) {
+    // Map map = DurationUtils.dateMap(duration);
+
+    setState(() {
+      remainTime = DayTime.fromDuration(duration).format();
+    });
+  }
+
+  // @override
+  void initState() {
+
+    
+
+    super.initState();
+
+    print('MyApp initState');
+
+    RegExp exp = RegExp(r"^WS{1,2}:\/\/(\d{1,3})\.(\d{1,3})\.\d{1,3}\.\d{1,3}:56789");
+    String str = "WS://56.60.02.1:56789";
+    Iterable<RegExpMatch> matches = exp.allMatches(str);
+    List<int> groupIndics = [1, 2]; 
+    matches.forEach((element) { 
+      // print('${element.group(1)}, ${element.group(2)}, ${element.group(0)}');
+      element.groups(groupIndics).forEach((e) {
+        // print(e);
+      });
+    });
+    // print(exp.stringMatch(str));
+    // DayTime s = DayTime.fromDuration(DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(1616340544000)));
+    // s.format();
+    // print(s.format('D天 HH:mm:ss'));
+    
+
+    controller = new AnimationController(
+      duration: const Duration(seconds: 1),
+      lowerBound: 10.0,
+      upperBound: 100.0,
+      vsync: this
+    );
+
+    animation = new ColorTween(begin: Colors.red, end: Colors.yellow).animate(controller);
+
+    animation.addListener(() { 
+      setState(() {
+        ++count;
+      });
+    });
+
+    controller.forward();
+  }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   controller.dispose();
+  //   print('MyApp dispose');
+  // }
+  
   @override
   Widget build(BuildContext context) {
-     
-    
+
+  // AnimatedWidget
+        
     return MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(
         appBar: AppBar(title: Text('demo')),
-        body: 
-//         Listener(
-//     child: Container(
-//         constraints: BoxConstraints.tight(Size(300.0, 150.0)),
-//         color: Colors.yellow,
-//         child: Center(
-//           child: Listener(
-//             onPointerDown: (e) => print('child'),
-//             child: Container(
-//           color: Colors.red,
-//           width: 100,
-//           height: 50,
-//           child: Center(child: Text("Box A")),
-//         ),
-//           ),
-//         ),
-//     ),
-//     //behavior: HitTestBehavior.opaque,
-//     onPointerDown: (event) => print("down A")
-// ),
-Listener(
-  child: AbsorbPointer(
-    child: Listener(
-      child: Container(
-        color: Colors.red,
-        width: 200.0,
-        height: 100.0,
-        child: Center(
-          child: Listener(
-          child: Container(
-            color: Colors.grey,
-            child: Text('点击'),
+        body: NotificationListener<MyNotification>(
+          onNotification: (notification) {
+            print('${notification.msg}，爷爷');
+
+            return false;
+          },
+          child: NotificationListener<MyNotification>(
+            onNotification: (notification) {
+              print('${notification.msg}，父亲');
+
+              return true;
+            },
+            child: Column(
+              children: [
+                // Builder(
+                //   builder: (BuildContext context) {
+                //     return Container(
+                //       color: animation.value,
+                //       child: Text(controller.value.toString()),
+                //     );
+                //   }
+                // ),
+
+                Container(
+                  color: Colors.yellow,
+                  child: Text('倒计时: $remainTime')
+                )
+              ],
+            )
           ),
-          onPointerDown: (event)=>print("孙子"),
-        ),
         )
-      ),
-      onPointerDown: (event)=>print("in"),
-    ),
-  ),
-  onPointerDown: (event)=>print("up"),
-)
-
-//         Stack(
-//   children: <Widget>[
-//     Listener(
-//       child: ConstrainedBox(
-//         constraints: BoxConstraints.tight(Size(300.0, 200.0)),
-//         child: DecoratedBox(
-//             decoration: BoxDecoration(color: Colors.blue, border: Border.all(width: 10, color: Colors.transparent))),
-//       ),
-//       onPointerDown: (event) => print("down0"),
-//     ),
-//     Listener(
-//       child: ConstrainedBox(
-//         constraints: BoxConstraints.tight(Size(150.0, 200.0)),
-//         child: Center(child: Text("左上角200*100范围内非文本区域点击")),
-//       ),
-//       onPointerDown: (event) => print("down1"),
-//       behavior: HitTestBehavior.opaque, //放开此行注释后可以"点透"
-//     )
-//   ],
-// )
-
       )
     );
   }
 }
 
+class MyNotification extends Notification {
+  MyNotification(this.msg);
 
-var name = new Map<Object, Object>();
+  final String msg;
+}
 
 void main() => runApp(MyApp());
 
