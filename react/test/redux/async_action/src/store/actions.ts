@@ -1,3 +1,6 @@
+import { AnyAction } from '_redux@4.0.5@redux';
+import { Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 //切换列表
 export const SELETE_SUBREDDIT = 'SELETE_SUBREDDIT'
@@ -42,6 +45,17 @@ export const receivePosts = (subreddit, json)  => {
 }
 
 
+export const CHANGE_NAME = 'CHANGE_NAME';
+export const changeName = (data: any) => ({
+    type: CHANGE_NAME,
+    data
+});
+export const changeNameAsync = (data?: any) => (dispatch: Dispatch) => {
+    dispatch(changeName('loading'));
+    fetch('/api').then(res => res.json()).then(res => dispatch(changeName(res.data)));
+}
+
+  
 export const fetchPosts = (subreddit) => {
     return function (dispatch) {
         dispatch(requestPosts(subreddit))
@@ -61,7 +75,7 @@ export const fetchPosts = (subreddit) => {
                     ]
                 }))
                 resolve(null);
-            }, 400)
+            }, 1000)
         })
     }
 }
@@ -80,9 +94,16 @@ const shouldFetchPosts = (state, subreddit) => {
 export const fetchPostsIfNeed = (subreddit) => {
     return function (dispatch, getState) {
         if (shouldFetchPosts(getState(), subreddit)) {
-            dispatch(fetchPosts)
+            return dispatch(fetchPosts(subreddit))
         } else {
             return Promise.resolve()
         }
+    }
+}
+
+
+export const asyncFetchPostsIfNeed = (subreddit) => async (dispatch, getState) => {
+    if (shouldFetchPosts(getState(), subreddit)) {
+        await dispatch(fetchPosts(subreddit))
     }
 }

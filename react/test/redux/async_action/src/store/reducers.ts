@@ -36,7 +36,7 @@ const post = (
                 isFetching: true,
                 didInvalidate: false
             }
-        case REQUEST_POSTS:
+        case RECEIVE_POSTS:
             return {
                 ...state, 
                 isFetching: false,
