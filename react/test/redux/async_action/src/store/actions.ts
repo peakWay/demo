@@ -80,6 +80,33 @@ export const fetchPosts = (subreddit) => {
     }
 }
 
+
+
+export const asyncFetchPosts = (subreddit) => async (dispatch, getState) => {
+
+    dispatch(requestPosts(subreddit))
+
+    let promise = new Promise((resolve) => {
+        setTimeout(() => {
+            dispatch(receivePosts(subreddit, {
+                list: [
+                    {
+                        id: 1,
+                        title: 'i like react'
+                    },
+                    {
+                        id: 2,
+                        title: 'i like redux too'
+                    }
+                ]
+            }))
+            resolve(null);
+        }, 1000)
+    })
+
+    await promise;
+}
+
 const shouldFetchPosts = (state, subreddit) => {
     const posts = state.postsBySubreddit[subreddit]
     if (!posts) {
@@ -102,8 +129,8 @@ export const fetchPostsIfNeed = (subreddit) => {
 }
 
 
-export const asyncFetchPostsIfNeed = (subreddit) => async (dispatch, getState) => {
+export const asyncFetchPostsIfNeed = (subreddit) => (dispatch, getState) => {
     if (shouldFetchPosts(getState(), subreddit)) {
-        await dispatch(fetchPosts(subreddit))
+        dispatch(fetchPosts(subreddit))
     }
 }

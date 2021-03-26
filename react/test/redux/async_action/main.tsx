@@ -11,8 +11,7 @@ import store from './src/store/store';
 
 store
     .dispatch(asyncFetchPostsIfNeed('rejectjs'))
-    
-    console.log(store.getState())
+
     
 render(
     <App />, 
