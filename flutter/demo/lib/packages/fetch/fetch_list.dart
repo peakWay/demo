@@ -82,6 +82,78 @@ mixin SingleListFetch<T extends StatefulWidget, D extends List> on State<T> {
   }
 }
 
+mixin MultipleListFetchs<T extends StatefulWidget, D> on FetchState<T, D> {
+  String get selectedType => _selectedType;
+  String _selectedType;
+  set selectedType(String value) {
+    assert(_types.contains(value));
+
+    //不能设置为未初始化
+    _selectedType = value;
+    markNeedsBuild();
+  } 
+
+  Map<String, FetchModel<List>> get map => _map;
+  Map<String, FetchModel<List>> _map = {};
+
+  List<String> initTypes();
+
+  Future<List> fetch(String selectedType as [dynamic arg]);
+
+  List<String> _types;
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    _types = initTypes();
+
+    _types.forEach((type) {
+      _map[type] = FetchModel<List>();
+    });
+
+    selectedType = _map.keys.toList()[0];
+
+  } 
+
+  void requestList(String selectedType) {
+    super.request(_map[selectedType]);
+  }
+
+  void requestListBuild(String selectedType) {
+    super.request(_map[selectedType]);
+  }
+
+  void invalideList(String selectedType) {
+    super.request(_map[selectedType]);
+  }
+
+  void requestListError(String selectedType) {
+    super.requestError(_map[selectedType]);
+  }
+
+  void requestListErrorBuild(String selectedType) {
+    super.requestErrorBuild(_map[selectedType]);
+  }
+
+  void receiveList(String selectedType, D payload) {
+    super.receive(_map[selectedType], payload);
+  }
+
+  void receiveListBuild(String selectedType, D payload) {
+    super.receiveBuild(_map[selectedType], payload);
+  }  
+
+  @override
+  bool shouldFetchState(String selectedType) {
+    return super.shouldFetchState(_map[selectedType]);
+  }
+
+  
+
+}
+
 mixin MultipleListFetch<T extends StatefulWidget> on State<T> {
   String get selectedType => _selectedType;
   String _selectedType;
