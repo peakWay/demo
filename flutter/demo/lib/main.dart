@@ -2,6 +2,7 @@
 
 
 import 'package:demo/packages/fetch/fetch.dart';
+import 'package:demo/packages/fetch/fetch_list.dart';
 import 'package:flutter/material.dart';
 
 // class VisibleState<T> extends State{

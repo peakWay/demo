@@ -14,112 +14,79 @@ class FetchModel<T> {
   T data;
 }
 
-// mixin SingleFetch<T extends StatefulWidget, D> on State<T> {
-//   D 
-// }
 
-mixin MultipleListFetch<T extends StatefulWidget> on State<T> {
-  String get selectedType => _selectedType;
-  String _selectedType;
-  set selectedType(String value) {
-    assert(_types.contains(value));
+abstract class FetchState<T extends StatefulWidget, D> extends State<T> {
 
-    //不能设置为未初始化
-    _selectedType = value;
-    markNeedsBuild();
-  }
-  
-  Map<String, FetchModel<List>> get map => _map;
-  Map<String, FetchModel<List>> _map = {};
-
-  List<String> initTypes();
-
-  Future<List> fetch(String selectedType);
-
-  List<String> _types;
-
-  @override
-  void initState() {
-
-    super.initState();
-
-    _types = initTypes();
-
-    _types.forEach((type) {
-      _map[type] = FetchModel<List>();
-    });
-
-    selectedType = _map.keys.toList()[0];
-
-  }  
+  Future<D> fetch([dynamic arg]);
 
   @protected
-  void requestList(String selectedType) {
-    _map[selectedType].isFetching = true;
+  void request(FetchModel fetchState) {
+    fetchState.isFetching = true;
   }
 
   @protected
-  void requestListBuild(String selectedType) {
-    requestList(selectedType);
+  void requestBuild(FetchModel fetchState) {
+    request(fetchState);
     markNeedsBuild();
   }
 
   @protected 
-  void invalide(String selectedType) {
-    _map[selectedType].didInvalidate = true;
+  void invalide(FetchModel fetchState) {
+    fetchState.didInvalidate = true;
   }
 
   @protected
-  void requestError(String selectedType) {
-    _map[selectedType].isFetching = false;
-    _map[selectedType].didInvalidate = false;
-    _map[selectedType].isError = true;
+  void requestError(FetchModel fetchState) {
+    fetchState.isFetching = false;
+    fetchState.didInvalidate = false;
+    fetchState.isError = true;
   }
 
   @protected
-  void requestErrorBuild(String selectedType) {
-    requestError(selectedType);
+  void requestErrorBuild(FetchModel fetchState) {
+    requestError(fetchState);
     markNeedsBuild();
   }
 
   @protected
-  void receiveList(String selectedType, List payload) {
-    _map[selectedType].isFetching = false;
-    _map[selectedType].data = payload;
+  void receive(FetchModel fetchState, D payload) {
+    fetchState.isFetching = false;
+    fetchState.data = payload;
   }
 
   @protected
-  void receiveListBuild(String selectedType, List payload) {
-    receiveList(selectedType, payload);
+  void receiveBuild(FetchModel fetchState, D payload) {
+    receive(fetchState, payload);
     markNeedsBuild();
   }  
 
-  void _fetchList(String selectedType) async{
+  void _fetch(FetchModel fetchState) async{
 
-    requestListBuild(selectedType);
+    requestBuild(fetchState);
 
     try {
-      List res = await fetch(selectedType);
+      D res = await fetch();
 
-      receiveListBuild(selectedType, res);
+      receiveBuild(fetchState, res);
     } catch (error) {
-      requestErrorBuild(error);
+      requestErrorBuild(fetchState);
     }
   }
 
-  void fetchListIfNeed(selectedType) {
-    if (shouldFetchState(selectedType)) 
-      _fetchList(selectedType);  
+  @protected
+  void fetchIfNeed(FetchModel fetchState) {
+    if (shouldFetchState(fetchState)) 
+      _fetch(fetchState);  
   } 
 
   @protected
-  bool shouldFetchState(selectedType) {
-    if (_map[selectedType].data == null)
+  bool shouldFetchState(FetchModel fetchState) {
+    if (fetchState.data == null)
       return true;
-    else if (_map[selectedType].isFetching)
+    else if (fetchState.isFetching)
       return false;
     else
-      return _map[selectedType].didInvalidate;
+      return fetchState.didInvalidate;
   }
 
   void markNeedsBuild() {
