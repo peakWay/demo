@@ -5,6 +5,8 @@ import 'package:demo/packages/fetch/fetch.dart';
 import 'package:demo/packages/fetch/fetch_list.dart';
 import 'package:flutter/material.dart';
 
+import 'base-lib/utils/iterable.dart';
+
 // class VisibleState<T> extends State{
 
 //   bool get visible => _visible;
@@ -63,17 +65,17 @@ class Test extends StatefulWidget {
   _TestState createState() => _TestState();
 }
 
-class _TestState extends State<Test> with MultipleListFetch<Test> {
+class _TestState extends State<Test> with FetchState<List>, MultipleListFetchs<Test, List> {
 
-  Future<List<String>> requestString() {
+  Future<List> requestString() {
     return Future.delayed(Duration(seconds: 1), () {
       return ['文字1', '文字2'];
     });
   }
 
-  Future<List<int>> requestInt() {
+  Future<List> requestInt() {
     return Future.delayed(Duration(seconds: 1), () {
-      return [1, 2];
+      return ['1', '2'];
     });
   }
 
@@ -83,12 +85,12 @@ class _TestState extends State<Test> with MultipleListFetch<Test> {
   }
 
   @override
-  Future<List> fetch(String selectedType) {
+  Future<List> Function() fetchMulipleListFunction() {
     switch (selectedType) {
       case 'string':
-        return requestString();
+        return requestString;
       case 'int':
-        return requestInt();
+        return requestInt;
       default: 
         return null;
     }
@@ -104,11 +106,15 @@ class _TestState extends State<Test> with MultipleListFetch<Test> {
   @override
   Widget build(BuildContext context) {
 
-    FetchModel item = map[selectedType];
+    FetchModel<List> typeListModel = map[selectedType];
 
-    List list= map[selectedType].data;
+    List list= typeListModel.data;
 
-    print('$selectedType, $list, ${list == null ? '没数据' : selectedType == 'string' ? (list as List<String>)[0] : (list as List<int>)[1]}');
+    if (selectedType == 'string' && !typeListModel.isFetching && list != null) {
+      List<String> sl = ListUtils.dynamicAsType(list);
+
+      print(sl[0].split(''));
+    }
 
     return Container(
       child: RaisedButton(
@@ -116,7 +122,7 @@ class _TestState extends State<Test> with MultipleListFetch<Test> {
           selectedType = selectedType == 'string' ? 'int' : 'string';
           fetchListIfNeed(selectedType);
         },
-        child: Text(item.isFetching ? '加载中' : list.toString())
+        child: Text(typeListModel.isFetching ? '加载中' : list.toString())
       ),
     );
   }

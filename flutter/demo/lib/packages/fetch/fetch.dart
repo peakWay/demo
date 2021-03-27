@@ -14,82 +14,78 @@ class FetchModel<T> {
   T data;
 }
 
+abstract class FetchState<D> {
 
-abstract class FetchState<T extends StatefulWidget, D> extends State<T> {
-
-  Future<D> fetch([dynamic arg]);
+  //引用到这个类的必须在markNeedsBuild实现setState;
+  void markNeedsBuild();
 
   @protected
-  void request(FetchModel fetchState) {
-    fetchState.isFetching = true;
+  void request(FetchModel fetch) {
+    fetch.isFetching = true;
   }
 
   @protected
-  void requestBuild(FetchModel fetchState) {
-    request(fetchState);
+  void requestBuild(FetchModel fetch) {
+    request(fetch);
     markNeedsBuild();
   }
 
   @protected 
-  void invalide(FetchModel fetchState) {
-    fetchState.didInvalidate = true;
+  void invalide(FetchModel fetch) {
+    fetch.didInvalidate = true;
   }
 
   @protected
-  void requestError(FetchModel fetchState) {
-    fetchState.isFetching = false;
-    fetchState.didInvalidate = false;
-    fetchState.isError = true;
+  void requestError(FetchModel fetch) {
+    fetch.isFetching = false;
+    fetch.didInvalidate = false;
+    fetch.isError = true;
   }
 
   @protected
-  void requestErrorBuild(FetchModel fetchState) {
-    requestError(fetchState);
+  void requestErrorBuild(FetchModel fetch) {
+    requestError(fetch);
     markNeedsBuild();
   }
 
   @protected
-  void receive(FetchModel fetchState, D payload) {
-    fetchState.isFetching = false;
-    fetchState.data = payload;
+  void receive(FetchModel fetch, D payload) {
+    fetch.isFetching = false;
+    fetch.data = payload;
   }
 
   @protected
-  void receiveBuild(FetchModel fetchState, D payload) {
-    receive(fetchState, payload);
+  void receiveBuild(FetchModel fetch, D payload) {
+    receive(fetch, payload);
     markNeedsBuild();
   }  
 
-  void _fetch(FetchModel fetchState) async{
+  void _fetch(FetchModel fetch, Future<D> Function() fetchFunction) async{
 
-    requestBuild(fetchState);
+    requestBuild(fetch);
 
     try {
-      D res = await fetch();
+      D res = await fetchFunction();
 
-      receiveBuild(fetchState, res);
+      receiveBuild(fetch, res);
     } catch (error) {
-      requestErrorBuild(fetchState);
+      requestErrorBuild(fetch);
     }
   }
 
   @protected
-  void fetchIfNeed(FetchModel fetchState) {
-    if (shouldFetchState(fetchState)) 
-      _fetch(fetchState);  
+  void fetchIfNeed(FetchModel fetch, Future<D> Function() fetchFunction) {
+    if (shouldFetchState(fetch)) 
+      _fetch(fetch, fetchFunction);  
   } 
 
   @protected
-  bool shouldFetchState(FetchModel fetchState) {
-    if (fetchState.data == null)
+  bool shouldFetchState(FetchModel fetch) {
+    if (fetch.data == null)
       return true;
-    else if (fetchState.isFetching)
+    else if (fetch.isFetching)
       return false;
     else
-      return fetchState.didInvalidate;
-  }
-
-  void markNeedsBuild() {
-    setState(() {});
+      return fetch.didInvalidate;
   }
 }
