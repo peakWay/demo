@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import TabNav from "./tab_nav";
 import TabContent from "./tab_content";
 import classnames from 'classnames';
+import { Seq } from "immutable";
+
 
 export default class Tabs extends Component {
 
     constructor(props) {
         super(props);
 
+        this.handleTabClick = this.handleTabClick.bind(this)
 
         //初始化index
         const currentProps = this.props;
@@ -26,11 +29,11 @@ export default class Tabs extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         //如果外部props activeIndex更改执行
-        if (activeIndex in nextProps) {
+        if ('activeIndex' in nextProps) {
             this.setState({
-                activeIndex
+                activeIndex: nextProps.activeIndex
             })
         }
     }

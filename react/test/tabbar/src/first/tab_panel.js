@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 export default class TabPanel extends Component {
 
     render() {
-        const { className, isActive, classProfix } = props;
+        const { className, isActive, classProfix, children } = this.props;
 
         let classes = classnames({
             [className]: className,

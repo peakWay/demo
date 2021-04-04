@@ -1,0 +1,25 @@
+
+.tabs {
+    &-nav {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    &-bar {
+        position: relative;
+    }
+
+    &-tab {
+        margin: 0 20px;
+    }
+}
+
+.inkBar {
+    position: absolute;
+    bottom: 0;
+    height: 6px;
+    background: blue;
+}
+

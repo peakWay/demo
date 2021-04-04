@@ -1,7 +1,7 @@
 
 {
     "plugins": [
-        "transform-runtime"
+        "transform-decorators-legacy"
     ],
     "presets": [
         "react",

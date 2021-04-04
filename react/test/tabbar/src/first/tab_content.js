@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Children, Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -8,14 +8,20 @@ export default class TabContent extends Component {
     getTabPanels() {
         const { classProfix, panels, activeIndex } = this.props;
 
+        console.log(panels, 21121212)
 
-        panels.map((child) => {
+
+
+        return panels.map((child) => {
             const order = child.props.order;
             const isActive = order == activeIndex;
+
+            console.log(order, 'order')
 
             return React.cloneElement(child, {
                 classProfix,
                 isActive,
+                order: order,
                 children: child.props.children,
                 key: `tabpane-${order}`
             })

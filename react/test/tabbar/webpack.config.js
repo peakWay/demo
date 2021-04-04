@@ -11,6 +11,11 @@ module.exports = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
     },
+    resolve: {
+        alias: {
+            '@': '/src'
+        }
+    },
     module: {
         rules: [
             {
@@ -22,10 +27,21 @@ module.exports = {
                 test: /\.(sa|sc|c)ss/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'post-loader',
+                    'css-loader?modules',
+                    'postcss-loader',
                     'sass-loader'
-                ]
+                ],
+                exclude: path.resolve(__dirname, 'src/styles')
+            },
+            {
+                test: /\.(sa|sc|c)ss/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
+                ],
+                include: path.resolve(__dirname, 'src/styles')
             }
         ]
     },
