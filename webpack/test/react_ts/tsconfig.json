@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "es2017",
+      "module": "commonjs",
+      "allowSyntheticDefaultImports": true,
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "baseUrl": ".",
+      "jsx": "react",
+      "allowJs": true,
+      "typeRoots": [
+        "node_modules/@types",
+        "global.d.ts"
+      ],
+      "paths": {
+        "@/*": ["./src/*"],
+        "react": ["node_modules/@types/react"]
+      }
+    },      
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+}
+  
