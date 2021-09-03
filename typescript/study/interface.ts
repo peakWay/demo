@@ -14,7 +14,7 @@
  * 6. 接口继承类
  */
 
-namespace interface {
+let interface = (function(){
     /* 1.接口属性 */
     //(1)可选属性
     interface OptionalProp {
@@ -189,5 +189,5 @@ namespace interface {
         props: any;
     }
     /* 6.接口继承类 */
-}
+})()
 

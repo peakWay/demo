@@ -5,8 +5,7 @@
  * 2. 展开
  */
 
-namespace variableDeclaration {
-    
+let variableDeclaration = (function() {
     let o = {
         name: 'oldman',
         age: 24,
@@ -36,5 +35,4 @@ namespace variableDeclaration {
     let cc = {...c};
     console.log(cc.age);  //OK
     // cc.sayHi();  //Error
-
-}
+})()

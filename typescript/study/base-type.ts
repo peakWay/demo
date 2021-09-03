@@ -15,7 +15,7 @@
  * 12. 类型断言
  */
 
-namespace BaseType {
+(function() {
     //布尔值
     let bool: boolean = true;
 
@@ -78,4 +78,4 @@ namespace BaseType {
     let value: any = 'string';
     let strLength = (value as string).length;
     let strLength1 = (<string>value).length;
-}
+})()
