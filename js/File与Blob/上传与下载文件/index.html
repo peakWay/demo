@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件相关</title>
+    <link rel="stylesheet" type="text/css" href="./index.css"></link>
+</head>
+<body>
+    <h2>文件上传(File对象来源)</h2>
+    <h3>通过input上传</h3>
+    <input type="file" onchange="chooseFile(event)" />
+    <h3>通过拖拽方式</h3>
+    <div id="dragarea" >拖拽到这</div>
+
+    <h4 class="fileinfo">文件信息</h4>
+    <div id="fileview"></div>
+    
+    <h2>文件下载</h2>
+    <h3>window.open方式</h3>
+    <ul>
+        <li><button id="pdf" onclick="windowDownload('./pdf.pdf')">pdf文件</button></li>
+        <li><button id="word" onclick="windowDownload('./word.docx')">word文件</button></li>
+        <li><button id="excel" onclick="windowDownload('./excel.xlsx')">excel文件</button></li>
+        <li><button id="ppt" onclick="windowDownload('./ppt.pptx')">ppt文件</button></li>
+    </ul>
+    <h3>h5中a标签下载</h3>
+    <h4>链接下载</h4>
+    <ul>
+        <li><button id="pdf" onclick="downloadUrl('./pdf.pdf')">pdf文件</button></li>
+        <li><button id="word" onclick="downloadUrl('./word.docx')">word文件</button></li>
+        <li><button id="excel" onclick="downloadUrl('./excel.xlsx')">excel文件</button></li>
+        <li><button id="ppt" onclick="downloadUrl('./ppt.pptx')">ppt文件</button></li>
+    </ul>
+    <h4>上传文件下载</h4>
+    <input type="file" onchange="chooseFileDownload(event)" />
+
+    <script>
+        /* 监听拖拽 */
+        let dragarea = document.getElementById('dragarea');
+
+        dragarea.ondragenter = (e) => {e.preventDefault()};
+        dragarea.ondragover = (e) => {e.preventDefault()};
+        dragarea.ondrop = (e) => {
+            e.preventDefault();
+            console.log(e)
+            showFileInfo(e.dataTransfer.files[0])
+        }
+
+        /* 文件显示dom */
+        function createFileView(data) {
+            let fragment = document.createDocumentFragment(),
+                fileview = document.getElementById('fileview')
+                suffix = document.createElement('div'),
+                type = document.createElement('div'),
+                readFunction = document.createElement('div'),
+                label = document.createElement('div'),
+                view = document.createElement('div');
+
+            suffix.innerText = `文件后缀：${data.suffix}`;
+            type.innerText = `文件类型：${data.type}`;
+            readFunction.innerText = `文件读取方式：${data.readFunction}`;
+            label.innerText = '文件内容：';
+
+            fragment.appendChild(suffix);
+            fragment.appendChild(type);
+            fragment.appendChild(readFunction);
+            fragment.appendChild(label);
+
+            if (data.readFunction == 'readAsDataURL') {
+                let img = document.createElement('img');
+                img.src = data.result
+                img.style = 'width: 200px; height: 100px;'
+                fragment.appendChild(img)
+            } else if (data.readFunction == 'readAsArrayBuffer') {
+                let div = document.createElement('div');
+                div.innerText = new Uint8Array(data.result)
+                fragment.appendChild(div)
+            } else {
+                let div = document.createElement('div');
+                div.innerText = data.result
+                fragment.appendChild(div)
+            }
+
+            if (fileview.childElementCount > 0) {
+                fileview.innerHTML = ''
+            } 
+            fileview.appendChild(fragment)
+            
+        } 
+    </script>
+
+    <script>
+        /* 上传文件 */
+        function chooseFile(e) {
+            showFileInfo(e.target.files[0]);
+        }
+
+        /**
+         * 显示文件
+         * 读取文件方法：readAsText、readAsDataURL、readAsArrayBuffer、readAsBinaryString
+         * 文件类型: word, img, excel, pdf, ppt, text
+        */
+        function showFileInfo(file) {
+            console.log(file)
+            //文件对象
+            const reader = new FileReader();
+
+            /**
+             * readAsText
+             * text可以正常解析
+             * 其他文件类型乱码
+            */
+            const readFunction = 'readAsText';
+
+
+            /**
+             * readAsDataURL
+             * URL格式的Base64字符串
+             * img能正常显示
+             * 其他文件类型无法通过img标签显示
+            */
+            // const readFunction = 'readAsDataURL'
+
+            /**
+             * readAsArrayBuffer
+             * 文件的ArrayBuffer缓冲数据对象
+             * 显示Uint8Array定型数组
+            */
+            // const readFunction = 'readAsArrayBuffer'
+            
+            /**
+             * readAsBinaryString
+             * 文件的原始二进制数据
+             * 无法显示皆乱码
+            */
+            // const readFunction = 'readAsBinaryString'
+    
+            reader[readFunction](file);
+
+            const match = file.name.match(/.(\w+)$/) || [];            
+
+            reader.onerror = () => {
+                console.error(reader.error)
+            }
+
+            reader.onprogress = (e) => {
+                if (e.lengthComputable) {
+                    console.log(`文件下载进度：${e.loaded}/${e.total}`)
+                }
+            }
+
+            reader.onload = () => {
+                const result = reader.result;
+                console.log(result)
+
+                
+                createFileView(
+                    {
+                        suffix: match[0],
+                        type: file.type,
+                        readFunction,
+                        result
+                    }
+                )
+            }
+
+
+        }
+
+        
+    </script>
+    <script>
+        function windowDownload(src) {
+            // window.open(src)
+            window.location.href = src;
+        }
+
+        function chooseFileDownload(e) {
+            let file = e.target.files[0];
+
+            const URL = window.URL || window.webkitURL;
+
+            let url =  URL.createObjectURL(file);
+            downloadUrl(url);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadUrl(url) {
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = '文件';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>

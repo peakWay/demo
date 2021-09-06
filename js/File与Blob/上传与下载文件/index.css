@@ -1,0 +1,11 @@
+
+
+#dragarea {
+    width: 200px;
+    height: 100px;
+    border: 1px dashed #000;
+}
+
+.fileinfo {
+    color: skyblue;
+}
