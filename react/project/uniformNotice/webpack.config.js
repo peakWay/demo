@@ -23,17 +23,21 @@ module.exports = {
                 test: /\.(sa|sc|c)ss/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: {
-                                auto: (resourcePath) => !resourcePath.endsWith(".global.css")
-                            }
-                        }
-                    },
+                    'css-loader?modules',
                     'postcss-loader',
                     'sass-loader'
-                ]
+                ],
+                exclude: path.resolve(__dirname, 'src/styles')
+            },
+            {
+                test: /\.(sa|sc|c)ss/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
+                ],
+                include: path.resolve(__dirname, 'src/styles')
             },
             {
                 test: /\.js/,
@@ -43,7 +47,6 @@ module.exports = {
             { 
                 test: /\.tsx?$/, 
                 use: ['babel-loader']
-                // loader: 'awesome-typescript-loader' 
             }
         ]
     },

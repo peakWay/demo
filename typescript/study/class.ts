@@ -164,7 +164,7 @@ let classSpace = (function() {
 
     /**
      * 7. 构造函数
-     * 类能分为实例部分和静态部分
+     * 类分为实例部分和静态部分
      * typeof 获取构造函数类型，这样能访问类的静态部分
      */
     class ConstructorPerson {
@@ -177,4 +177,9 @@ let classSpace = (function() {
     console.log(personConstructor.SEX_N)
     let personConstructorIns = new personConstructor('oldman');
     
+    function getName(className: typeof ConstructorPerson) {
+        return (new className('oldman')).name;
+    }
+
+    getName(ConstructorPerson);
 })()

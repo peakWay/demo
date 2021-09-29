@@ -7,28 +7,6 @@ import 'package:flutter/material.dart';
 
 import 'base-lib/utils/iterable.dart';
 
-// class VisibleState<T> extends State{
-
-//   bool get visible => _visible;
-//   bool _visible;
-
-//   @override
-//   didShow() {
-//     _visible = true;
-//     setState(() {});
-//   }
-
-//   @protected
-//   didHide() {
-//     _visible = false;
-//   }
-
-//   install() {
-
-//   }
-// }
-
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -65,7 +43,17 @@ class Test extends StatefulWidget {
   _TestState createState() => _TestState();
 }
 
-class _TestState extends State<Test> with FetchState<List>, MultipleListFetchs<Test, List> {
+class MyCustomData {
+  MyCustomData({
+    this.name
+  });
+
+  final name;
+}
+
+class _TestState extends State<Test> with FetchState, MultipleListFetch<Test, List> {
+
+  FetchModel<MyCustomData> custom = FetchModel();
 
   Future<List> requestString() {
     return Future.delayed(Duration(seconds: 1), () {
@@ -76,6 +64,12 @@ class _TestState extends State<Test> with FetchState<List>, MultipleListFetchs<T
   Future<List> requestInt() {
     return Future.delayed(Duration(seconds: 1), () {
       return ['1', '2'];
+    });
+  }
+
+  Future<MyCustomData> requestMyCustom() {
+    return Future.delayed(Duration(seconds: 1), () {
+      return MyCustomData(name: 'oldman');
     });
   }
 
@@ -117,12 +111,22 @@ class _TestState extends State<Test> with FetchState<List>, MultipleListFetchs<T
     }
 
     return Container(
-      child: RaisedButton(
-        onPressed: () {
-          selectedType = selectedType == 'string' ? 'int' : 'string';
-          fetchListIfNeed(selectedType);
-        },
-        child: Text(typeListModel.isFetching ? '加载中' : list.toString())
+      child: Column(
+        children: [
+          RaisedButton(
+            onPressed: () {
+              selectedType = selectedType == 'string' ? 'int' : 'string';
+              fetchListIfNeed(selectedType);
+            },
+            child: Text(typeListModel.isFetching ? '加载中' : list.toString())
+          ),
+          RaisedButton(
+            child: Text(custom.isFetching ? '加载中' : custom.data == null ? '' : custom.data.name),
+            onPressed: () {
+              fetchIfNeed(custom, requestMyCustom);
+            },
+          )
+        ],
       ),
     );
   }

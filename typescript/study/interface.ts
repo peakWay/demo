@@ -91,6 +91,7 @@ let interface = (function(){
     let getIntroduceFunc = <FuncInterface>function(name, age) {
         return `hi, my name is ${name}, my age is ${age}`;
     }
+
     /* 2.函数接口 */
 
     /* 3.类实现接口 */

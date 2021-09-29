@@ -77,13 +77,12 @@ const generic = (function() {
     identifyLength({length: 3, value: 'typescript'});
 
     /* 通过类型参数 */
-    // function identifyParam(obj: T, key: string) {
-    //     return obj[key];
-    // }
+    function identifyParam<T>(obj: T, key: string) {
+        return obj[key];
+    }
 
-    // let o = { a: '1', b: '2'}
-    // identifyParam(o, 'c');
-    // identifyParam(o, 'a');
-
+    let o = { a: '1', b: '2'}
+    identifyParam(o, 'c');
+    identifyParam(o, 'a');
     
 })()

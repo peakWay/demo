@@ -14,6 +14,7 @@ interface AuthRouteProps {
 }
 
 const AuthRoute: React.FC<AuthRouteProps> = ({component: Component, ...rest}) => {
+    console.log(rest);
 
     return (
         <Route 
@@ -34,7 +35,7 @@ const AuthRoute: React.FC<AuthRouteProps> = ({component: Component, ...rest}) =>
 
 const PageRoute: React.FC<RouteComponentProps> = (props) => {
     return (
-        <div className={styles.root}>
+        <div className="root">
             <Sidebar></Sidebar>
             
             <Switch>
@@ -56,7 +57,6 @@ const PageRoute: React.FC<RouteComponentProps> = (props) => {
         </div>
     )
 }
-
 const App: React.FC = () => {
     return (
         <Router>

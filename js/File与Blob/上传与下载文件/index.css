@@ -9,3 +9,11 @@
 .fileinfo {
     color: skyblue;
 }
+
+ul {
+    display: flex;
+}
+
+ul li {
+    margin-right: 40px;
+}

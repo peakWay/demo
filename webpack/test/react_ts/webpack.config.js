@@ -9,13 +9,17 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
+        alias: {
+            '@': '/src'
+        },
         extensions: ['.tsx', '.ts', '.js']
     },
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: ['babel-loader']
+                use: ['babel-loader'],
+                exclude: /node_modules/
             }
         ]
     },

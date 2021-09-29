@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/style.css"],"names":[],"mappings":";AACA;IACI,UAAU;AACd,C","file":"main.css","sourcesContent":["\n.hello {\n    color: red;\n}"],"sourceRoot":""}

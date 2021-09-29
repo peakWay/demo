@@ -14,7 +14,7 @@ class FetchModel<T> {
   T data;
 }
 
-abstract class FetchState<D> {
+abstract class FetchState {
 
   //引用到这个类的必须在markNeedsBuild实现setState;
   void markNeedsBuild();
@@ -49,23 +49,23 @@ abstract class FetchState<D> {
   }
 
   @protected
-  void receive(FetchModel fetch, D payload) {
+  void receive(FetchModel fetch, payload) {
     fetch.isFetching = false;
     fetch.data = payload;
   }
 
   @protected
-  void receiveBuild(FetchModel fetch, D payload) {
+  void receiveBuild(FetchModel fetch, payload) {
     receive(fetch, payload);
     markNeedsBuild();
   }  
 
-  void _fetch(FetchModel fetch, Future<D> Function() fetchFunction) async{
+  void _fetch(FetchModel fetch, Future Function() fetchFunction) async{
 
     requestBuild(fetch);
 
     try {
-      D res = await fetchFunction();
+      var res = await fetchFunction();
 
       receiveBuild(fetch, res);
     } catch (error) {
@@ -74,7 +74,7 @@ abstract class FetchState<D> {
   }
 
   @protected
-  void fetchIfNeed(FetchModel fetch, Future<D> Function() fetchFunction) {
+  void fetchIfNeed(FetchModel fetch, Future Function() fetchFunction) {
     if (shouldFetchState(fetch)) 
       _fetch(fetch, fetchFunction);  
   } 

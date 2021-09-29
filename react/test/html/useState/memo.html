@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+
+<div id="root"></div>
+<script type="text/babel">
+
+let Child = ({onClick, count}) => {
+    console.log('子组件刷新了');
+    return <button onClick={onClick}>子组件: { count }</button>
+}
+
+Child = React.memo(Child)
+
+const App = () => {
+    console.log('Counter render');
+    const [name,setName]= React.useState('计数器');
+    const [number,setNumber] = React.useState(0);
+    const data = number;
+    const addClick = ()=>{
+        setNumber(number+1);
+    };
+
+    //改变name的值会让整个函数更新，虽然number的值还是一样的，但是是个新的值
+    return (
+        <div>
+            <input type="text" value={name} onChange={(e)=>setName(e.target.value)}/>
+            <Child count={data} onClick={addClick}/>
+        </div>
+    )
+}
+
+ReactDOM.render(
+	<App />,
+	document.getElementById('root')
+);
+</script>
+
+</body>
+</html>

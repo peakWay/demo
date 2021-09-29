@@ -25,8 +25,15 @@
         <li><button id="excel" onclick="windowDownload('./excel.xlsx')">excel文件</button></li>
         <li><button id="ppt" onclick="windowDownload('./ppt.pptx')">ppt文件</button></li>
     </ul>
-    <h3>h5中a标签下载</h3>
-    <h4>链接下载</h4>
+    <h3>location.href方式</h3>
+    <ul>
+        <li><button id="pdf" onclick="locationDownload('./pdf.pdf')">pdf文件</button></li>
+        <li><button id="word" onclick="locationDownload('./word.docx')">word文件</button></li>
+        <li><button id="excel" onclick="locationDownload('./excel.xlsx')">excel文件</button></li>
+        <li><button id="ppt" onclick="locationDownload('./ppt.pptx')">ppt文件</button></li>
+    </ul>
+    <h3>创建a标签下载</h3>
+    <h4>本地文件下载</h4>
     <ul>
         <li><button id="pdf" onclick="downloadUrl('./pdf.pdf')">pdf文件</button></li>
         <li><button id="word" onclick="downloadUrl('./word.docx')">word文件</button></li>
@@ -69,10 +76,18 @@
             fragment.appendChild(label);
 
             if (data.readFunction == 'readAsDataURL') {
-                let img = document.createElement('img');
-                img.src = data.result
-                img.style = 'width: 200px; height: 100px;'
-                fragment.appendChild(img)
+                //图片显示
+                // let img = document.createElement('img');
+                // img.src = data.result
+                // img.style = 'width: 200px; height: 100px;'
+                // fragment.appendChild(img)
+
+
+                //字符串显示
+                let div = document.createElement('div');
+                div.innerText = data.result
+                fragment.appendChild(div);
+                
             } else if (data.readFunction == 'readAsArrayBuffer') {
                 let div = document.createElement('div');
                 div.innerText = new Uint8Array(data.result)
@@ -112,7 +127,7 @@
              * text可以正常解析
              * 其他文件类型乱码
             */
-            const readFunction = 'readAsText';
+            // const readFunction = 'readAsText';
 
 
             /**
@@ -121,7 +136,7 @@
              * img能正常显示
              * 其他文件类型无法通过img标签显示
             */
-            // const readFunction = 'readAsDataURL'
+            const readFunction = 'readAsDataURL'
 
             /**
              * readAsArrayBuffer
@@ -173,7 +188,10 @@
     </script>
     <script>
         function windowDownload(src) {
-            // window.open(src)
+            window.open(src)
+        }
+
+        function locationDownload(src) {
             window.location.href = src;
         }
 

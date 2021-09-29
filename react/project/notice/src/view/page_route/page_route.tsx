@@ -23,7 +23,7 @@ const PageRoute: React.FC<PageRouteProps> = (props) => {
     const projectClass = 'project';
     const contentClass = 'content';
 
-    console.log(routes, 'props');
+    consele.log(routes, 'props');
 
     return (
         <Layout styleName={pageClass}>

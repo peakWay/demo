@@ -123,8 +123,6 @@ class Square extends React.Component {
 //提升后的
 class Board extends React.Component {
 
-    
-
     renderSquare (i) {
         return (
             <Square 

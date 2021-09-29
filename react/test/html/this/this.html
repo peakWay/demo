@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+
+<div id="root"></div>
+<script type="text/babel">
+class This extends React.Component {
+    constructor (props) {
+        super(props);
+
+        //返回绑定好作用域的方法
+        this.handleClick3 = this.handleClick3.bind(this)
+    }
+
+    handleClick1() {
+        console.log(this, '箭头函数this')
+    }
+
+    handleClick2() {
+        //this不存在的原因onClick内部传入方法，但函数调用的作用域在onClick内部
+        //等效于
+        // function next(onClick) {
+        //     onClick && onClick();
+        // }
+
+        // next(function() {console.log(this, '?')})
+        console.log(this, '直接赋值')
+    }
+
+    handleClick3() {
+        console.log(this, '绑定this')
+    }
+
+    handleClick4() {
+        console.log(this, '每次渲染时重建函数')
+    }
+
+    render() {
+        return (
+            <div>
+                <button onClick={() => this.handleClick1()}>
+                    箭头函数this
+                </button>
+                <button onClick={this.handleClick2}>
+                    直接调用
+                </button>
+                <button onClick={this.handleClick3}>
+                    绑定this
+                </button>
+                <button onClick={this.handleClick4.bind(this)}>
+                    绑定会重建函数this
+                </button>
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(
+	<This />,
+	document.getElementById('root')
+);
+</script>
+
+</body>
+</html>
