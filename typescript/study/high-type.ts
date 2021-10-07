@@ -10,6 +10,7 @@
  * 7. 可辨识联合
  * 8. 多态的this类型
  * 9. 索引类型
+ * 10. 映射类型
  */
 
 let highType = (function() {
@@ -251,6 +252,7 @@ let highType = (function() {
         age: number
     }
 
+    //等于将对象属性组成字符串字面量类型
     let personProps: keyof Person;  //'name' | 'age'
     personProps = 'name';
     // personProps = 'unknown';  //Error
@@ -263,6 +265,153 @@ let highType = (function() {
     let person1:Person =  {name: 'oldman', age: 25};
     let value = getProperty(person1, 'age');
     
-    // function T[K]
+    /**
+     * 10. 映射类型
+     * 定义：从旧类型创建一个新类型
+     * (1)for...in
+     * (2)同态/案例
+     */
     
+    /* for...in 遍历联合类型中的每一种类型，常与keyof结合*/
+
+    //固定联合类型
+    type OptionKeys = 'options1' | 'options2';
+    type optionAllNumber = {
+        [P in OptionKeys]: number
+    }
+
+
+    //固定接口
+    interface Position {
+        x: number
+        y: number
+    }
+
+    type PositionType = {
+        [P in keyof Position]: number;
+    }
+
+    //泛型
+    interface InPerson {
+        name: string,
+        age: number
+    }
+
+    type CloneType<T> = {
+        [P in keyof T]: T[P]
+    }
+
+    function cloneObject<T>(obj: T): CloneType<T> {
+        return obj
+    }
+
+    let inperson: InPerson = {name: 'oldman', age: 25};
+    cloneObject(inperson);
+
+    /* 同态：需要拷贝。上面的CloneType类转化是同态的，映射只作用于T的属性。 */
+    /* 案例 */
+    
+    //映射只读
+    interface PersonCase {
+        name: string,
+        age: number
+    }
+    
+    type ReadOnly<T> = {
+        readonly [P in keyof T]: T[P]
+    }
+    let personCase: PersonCase = {name: 'oldman',age: 25}
+    personCase.name  = 'peakWay';
+
+    let personCase1: ReadOnly<PersonCase> = {name: 'oldman',age: 25};
+    // personCase1.name = 'peakWay';  //Error
+    
+    //映射可选
+    // let personCase2: PersonCase = {name: 'oldman'};  //Error
+    type Partial<T> = {
+        [P in keyof T]?: T[P]
+    }
+    let personCase2: Partial<PersonCase> = {}  //ok
+    
+    //映射可为null
+    type Nullable<T> = {
+        [P in keyof T]: T[P] | null
+    }
+
+    // let personCase3: PersonCase = { name: null, age: null };  //Error
+    let personCase3: Nullable<PersonCase> = { name: null, age: null };
+
+    //代理增加设置函数和获得函数
+    type Proxy<T> = {
+        get(): T,
+        set(value: T): void
+    }
+
+    type Proxify<T> =  {
+        [P in  keyof T]:  Proxy<T[P]>
+    }
+
+    function proxify<T>(o: T): Proxify<T> {
+        let res = {} as Proxify<T>;
+        for (let key in o) {
+            res[key] = {
+                get: function() {
+                    return o[key];
+                },
+                set: function(value)  {
+                    o[key] = value
+                }
+            }
+        }
+        return res;
+    } 
+    
+    let res = proxify<PersonCase>(personCase);
+    res.age.get();
+    res.name.set('peakWay');
+
+    //非同态:设置特定key为指定类型
+    type Record<K extends keyof any, T> = {
+        [p in K]: T
+    }
+    
+    type TwoStringProps = Record<'name' | 'age', string>;
+    let personCase4: TwoStringProps = {name: 'oldman', age: '25'}
+
+    //解除设置函数代理
+    function unproxify<T>(t: Proxify<T>):  T {
+        let res = {} as T;
+        for(let key in t) {
+            res[key] = t[key].get();
+        }
+        return  res;
+    }
+
+    //剔除
+    //extends会遍历所有的值判断是否继承
+    type Exclude<T, U> = T extends U ? never : T;
+    type Extract<T, U> = T extends U ? T : never;
+
+    type One = 'a' | 'b' | 'c';
+    type Two = 'a' | 'c';
+    type TExclude = Exclude<One, Two>;
+    type TExtract = Extract<One, Two>;
+
+    type NonNullable<T> = T extends null | undefined ? never : T;
+    type NonNullType = NonNullable<string | number | null | undefined>
+
+    //将所有Null类型值去掉
+    type NonNullableValue<T> = {
+        // [P in keyof T]: Exclude<T[P], null | undefined>
+        [P in keyof T]: NonNullable<T[P]>
+    };
+    interface PersonNull {
+        name: string | null
+    }
+
+    type PersonNoNull = NonNullableValue<PersonNull>
+
+    // let personCase5: PersonNoNull =  {name: null}  //Error
+
+    // type ReturnType<T> = T extends Function ? 
 })
