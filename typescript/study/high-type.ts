@@ -11,6 +11,7 @@
  * 8. 多态的this类型
  * 9. 索引类型
  * 10. 映射类型
+ * 11. infer操作符
  */
 
 let highType = (function() {
@@ -394,8 +395,8 @@ let highType = (function() {
 
     type One = 'a' | 'b' | 'c';
     type Two = 'a' | 'c';
-    type TExclude = Exclude<One, Two>;
-    type TExtract = Extract<One, Two>;
+    type TExclude = Exclude<One, Two>;  //'b'
+    type TExtract = Extract<One, Two>;  //'a' | 'c'
 
     type NonNullable<T> = T extends null | undefined ? never : T;
     type NonNullType = NonNullable<string | number | null | undefined>
@@ -413,5 +414,30 @@ let highType = (function() {
 
     // let personCase5: PersonNoNull =  {name: null}  //Error
 
-    // type ReturnType<T> = T extends Function ? 
+    /**
+     * 11. infer操作符
+     * (1) infer操作符可以用来声明一个待推断的类型变量
+     * (2) infer可以用在条件类型不同声明类型的位置
+     * (3) 借助infer实现类型转换
+     */
+
+    /* infer操作符可以用来声明一个待推断的类型变量 */
+    type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any;
+
+    /* infer操作符可以用来声明一个待推断的类型变量 */
+    //数组类型推断
+    type ArrayType<T extends any[]> = T extends (infer U)[] ? U : any;
+
+    //Promise类型推断
+    type PromiseType<T extends Promise<any>> = T extends Promise<infer U> ? U : any;
+
+    //参数类型判断
+    type ParamType<T extends (...args: any) => any> = T extends (...args: infer U) => any ? U : never
+
+    /* 借助infer实现类型转换 */
+    //元组转联合类型
+    type TupleToUnion<T> = T extends (infer U)[] ? U : never;
+
+    //联合类型转交叉类型
+    type UnionToIntersection<T> = (T extends any ? (K: T) => void : never) extends ((K: infer U) => void) ? U : never;
 })

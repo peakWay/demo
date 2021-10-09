@@ -3,6 +3,15 @@
     "compilerOptions": {
         "strictNullChecks": true,
         "noImplicitThis": true,
-        "target": "ES2017"
+        "target": "ES2017",
+        "baseUrl": ".",
+        "paths": {
+            // "jquery": ["node_modules/jquery/dist/jquery.min.js"],
+            // "*": [
+            //     "*",
+            //     "export/*"
+            // ]
+        },
+        "moduleResolution": "Node"   //默认是Classic
     }
 }
