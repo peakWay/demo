@@ -6,12 +6,22 @@
         "target": "ES2017",
         "baseUrl": ".",
         "paths": {
-            // "jquery": ["node_modules/jquery/dist/jquery.min.js"],
-            // "*": [
-            //     "*",
-            //     "export/*"
-            // ]
+            "jquery": ["node_modules/jquery/dist/jquery.min.js"],
+            "*": [
+                "*",
+                "export/*"
+            ]
         },
-        "moduleResolution": "Node"   //默认是Classic
-    }
+        "module": "CommonJS",            //默认是ES6会导致moduleResolution默认为Classic
+        // "moduleResolution": "Node",   //默认是Classic
+        "jsx": "preserve",
+        // "typeRoots": [],           //指定默认类型声明文件查找路径
+        // "types": [],             //引入node_modules/types中的制定模块
+        "noEmit": true,            //不生成输出文件
+        "forceConsistentCasingInFileNames": true,    //禁止对文件的不一致引用
+        // "strictFunctionTypes": true           //禁用双向协变检查（type-compatibility文件中有用到）
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }

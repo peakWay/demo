@@ -16,7 +16,7 @@
 import CommonjsValue from './export/commonjs';
 
 //非相对模块导入: 会相对于baseUrl，进行下文路径映射解析和模块解析策略解析，可以解析外部模块
-import QueryString from 'query-string';
+import { parse } from 'query-string';
 
 /* 2. 模块解析策略 */
 //(1)Classic
