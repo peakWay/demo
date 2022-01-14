@@ -7,6 +7,7 @@ const HappyPack = require('happypack')
 //webpack-bundle-analyzer [jsonFilePath] 可视化 
 
 module.exports =  {
+    mode: 'development',
     entry: {
         'a': './entry/a.js',
         'b': './entry/b.js',
@@ -79,7 +80,7 @@ module.exports =  {
                 vendor: {
                     name: 'verdor',
                     // filename: '[name].js',  //出口文件名,与权重比output.chunkFilename高
-                    test: /[\\/]node_modules[\\/]/,
+                    test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
                     priority: 10,
                 },
                 common: {

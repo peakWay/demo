@@ -28,6 +28,7 @@
     //数组
     let arr1: number[] = [1, 2];
     let arr2: Array<number> = [1, 2];
+    let arr4: readonly number[] = [1, 2];
 
     //元祖
     //元祖已知索引的元素必须类型相同, 2.7以下越界的元素为联合类型，以上会报错

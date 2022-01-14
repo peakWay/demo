@@ -12,6 +12,11 @@
  * 4. 混合类型
  * 5. 继承接口
  * 6. 接口继承类
+ * 总结：
+ * 1. 接口本质上可以描述所有对象。无论是函数、数组、类实例，其都是对象，所以都能通过接口来定义。
+ * 2. ts所有语法都可以分为值与类型两类。接口属于类型语法，不会创建变量。
+ * 3. 接口与接口之间的继承就等于拓展，定一个更多属性、方法的类型。接口继承类会取类的所有实例属性、方法并将其定义为对应的类型
+ * 4. 类通过实现(implements)来连接接口，相当于给这个类的实例定义了必须实现对应类型的属性和方法
  */
 
 let interface = (function(){
@@ -64,11 +69,31 @@ let interface = (function(){
     createO(options);
 
     //(4)索引属性
+    /**
+     * 数组的本质是对象，键为索引值的字符串："1","2"直至length-1，值为对应索引上的值
+     * 用1去索引等效于"1"去索引,
+     */
     interface IndexProp {
         [index: number]: string
     }
 
     let stringArr: IndexProp = ['oldman', 'peakWay'] 
+
+    interface IndexProp1 {
+        [index: number]: string
+        length: number;
+    }
+    let stringArr1: IndexProp1 = {1: 'sd', length: 3}
+
+    interface NumberDictionary {
+        [index: string]: number;
+        length: number;    // 可以，length是number类型
+        // name: string       // 错误，`name`的类型与索引类型返回值的类型不匹配
+    }
+
+    // let numberArr: NumberDictionary = [1, 2]  //Error 索引的类型必须为数值
+    
+
 
     //(5)函数属性
     interface FuncProp {
