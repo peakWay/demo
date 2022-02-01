@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.175",
     "jquery": "^3.6.0",
-    "query-string": "^7.0.1"
+    "query-string": "^7.0.1",
+    "react": "^17.0.2"
   }
 }

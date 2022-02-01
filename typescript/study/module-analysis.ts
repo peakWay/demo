@@ -74,6 +74,8 @@ import { parse } from 'query-string';
 /* 3. 路径映射 */
 //若在tsconfig.json设置映射'export/*'则不会报错
 // import CommonjsValue from 'commonjs';
+import Jquery from 'jquery';
+import React from 'react';
 
 /* 4. 跟踪模块解析 */
 // 命令：tsc --traceResolution
