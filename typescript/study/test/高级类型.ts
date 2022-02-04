@@ -13,6 +13,8 @@
  * (2)元组本身也是数组，只要元组项满足继承关系即可
  * 
  * infer 在泛型继承中可以推断类型
+ * 1. 不能在限制泛型条件中推断
+ * 2. infer推断结果如果有多种类型，则结果为类型组成的元组
  */
 
 /* 交叉类型 */
@@ -61,7 +63,7 @@ interface Person {
     age: number;
 }
 
-type MyPicker<T, K extends keyof T> = {
+type _Picker<T, K extends keyof T> = {
     [P in K]: T[P]
 }
 
@@ -69,7 +71,7 @@ let onlyNamePerson: Pick<Person, 'name'> = {
     name: '怪老头'
 }
 
-type MyExtends<T, K extends T> = {
+type _Extends<T, K extends T> = {
     value: K
 }
 
@@ -80,47 +82,51 @@ type Fnumber = 1 | 2 | 3;
 type stringOne = 'one' | 'two' | 'three';
 type stringTwo = 'one' | 'two';
 
-let custom: MyExtends<stringOne, stringTwo> =  {
+let custom: _Extends<stringOne, stringTwo> =  {
     value: 'one'
 }
 
-let custom1: MyExtends<group, yuangroup> =  {
+let custom1: _Extends<group, yuangroup> =  {
     value: [1, '2']
 }
 
-let custom2: MyExtends<(name: string, age: number) => void, (name: string) => never> = {
+let custom2: _Extends<(name: string, age: number) => void, (name: string) => never> = {
     value: (name) => {
         throw Error();
     }
 }
 
-type MyExclude<T, U> = T extends U ? never : T;
-type T00 = MyExclude<"a" | "b" | "c" | "d", "a" | "c" | "f">; 
+type _Exclude<T, U> = T extends U ? never : T;
+type T00 = _Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">; 
 
-type MyExtract<T, U> = T extends U ? T : never;
-type T01 = MyExtract<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
+type _Extract<T, U> = T extends U ? T : never;
+type T01 = _Extract<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
 
-type MyNonNullable<T> = T extends null | undefined ? never : T;
-type T04 = MyNonNullable<string | number | undefined>;  // string | number
+type _NonNullable<T> = T extends null | undefined ? never : T;
+type T04 = _NonNullable<string | number | undefined>;  // string | number
 
-type MyReturnType<T> = T extends (...args: any) => infer R ? R : never;
-type T10 = MyReturnType<() => string>;  // string
+type _ReturnType<T> = T extends (...args: any) => infer R ? R : never;
+type T10 = _ReturnType<() => string>;  // string
 type T11 = ReturnType<(s: string) => void>;  // void
 
-type MyInstanceType<T extends abstract new (...args) => any> = T extends new (...args: any) => infer R ? R : any;
+type _InstanceType<T extends abstract new (...args) => any> = T extends new (...args: any) => infer R ? R : any;
 class MC {
     x = 0;
     y = 0;
 }
-type T20 = MyInstanceType<typeof MC>;  // C
-type T21 = MyInstanceType<any>;  // any
-type T22 = MyInstanceType<never>;  // any
-// type T23 = MyInstanceType<string>;  // Error
-// type T24 = MyInstanceType<Function>;  // Error
+type T20 = _InstanceType<typeof MC>;  // C
+type T21 = _InstanceType<any>;  // any
+type T22 = _InstanceType<never>;  // any
+// type T23 = _InstanceType<string>;  // Error
+// type T24 = _InstanceType<Function>;  // Error
 
-type MyOmit<T, K extends keyof T> = MyPicker<T, MyExclude<keyof T, K>>
+type _Omit<T, K extends keyof T> = _Picker<T, _Exclude<keyof T, K>>
 
-let noAgePerson: MyOmit<Person, "age"> = {
+let noAgePerson: _Omit<Person, "age"> = {
     name: '怪老头'
 }
 /* extends */
+
+/* infer */
+type ArrayToGroup<T> = T extends Array<infer P> ?  P  : never;
+/* infer */
