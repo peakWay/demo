@@ -4,7 +4,6 @@
  * 1. 类型断言限制
  * 2. 类型检查
  */
-/// <reference path="jsx.d.ts" />
 /// <reference types="lodash" />
 
 
