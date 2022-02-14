@@ -24,6 +24,11 @@ interface Person {
     introduce?: string;
 }
 
+// export type Name = string;
+export interface Name {
+    
+}
+
 /* 1. Partial<T>: 将对象所有属性类型增加可选 */
 type MyPartial<T> = {[P in keyof T] ?: T[P] | undefined; }
 let defaultProps: MyPartial<Person> = {}

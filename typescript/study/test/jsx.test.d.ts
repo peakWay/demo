@@ -21,3 +21,7 @@ declare namespace JSX  {
         children: {}
     }
 }
+
+export namespace MyLib  {
+    type MyName = string
+}
