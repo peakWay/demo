@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "target": "ES2017",
+        "baseUrl": ".",
+        "paths": {
+            
+        },
+        "esModuleInterop": true,
+        "module": "CommonJS",            //默认是ES6会导致moduleResolution默认为Classic
+        // "moduleResolution": "Node",   //默认是Classic
+        "jsx": "preserve",
+        "typeRoots": ["./node_modules/ts-type-demo/index.d.ts"],           //指定默认类型声明文件查找路径
+        // "types": [],             //引入node_modules/types中的制定模块
+        "noEmit": true,            //不生成输出文件
+        "forceConsistentCasingInFileNames": true,    //禁止对文件的不一致引用
+        "skipLibCheck": true
+        // "strictFunctionTypes": true           //禁用双向协变检查（type-compatibility文件中有用到）
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
