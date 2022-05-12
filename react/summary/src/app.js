@@ -6,12 +6,24 @@
 import React, { Component } from "react";
 import Pure from "./class/pure";
 import SetTimeout from "./hook/setTimeout";
+import UseEffect from "./hook/useEffect";
 import UseMemo from "./Hook/useMemo";
 import HookTest from "./Hook/useReducer";
 import RequestExample from "./hook/useRequest";
 
 
 class App extends Component { 
+    state = {
+        visible: true
+    }
+
+    componentDidMount() {
+        // setTimeout(() => {
+        //     this.setState({
+        //         visible: false
+        //     })
+        // }, 2000)
+    }
 
     render() {
         return (
@@ -28,7 +40,9 @@ class App extends Component {
 
                 {/* <SetTimeout /> */}
 
-                <RequestExample />
+                {/* <RequestExample /> */}
+
+                { this.state.visible ? <UseEffect /> : null }
             </div>
             
         )
