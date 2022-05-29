@@ -3,6 +3,7 @@
     "compilerOptions": {
         "strictNullChecks": true,
         "noImplicitThis": true,
+        "strict": true,
         "target": "ES2017",
         "baseUrl": ".",
         "paths": {
