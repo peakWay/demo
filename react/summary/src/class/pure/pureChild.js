@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 class PureChild extends PureComponent { 
 
     render() {
-        console.log('PureChild', 'Render')
+        console.log('PureComponent优化的子组件渲染了')
         return (
             <>
                 <div>名称：{ this.props.name }</div>

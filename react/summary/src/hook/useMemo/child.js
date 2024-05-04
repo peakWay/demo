@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 export default function MemoChild(props) {
-    console.log('MemoChild', 'render')
+    console.log('Memo优化的子组件渲染了')
     // const name = useMemo(() => {
     //     console.log('change');
     //     return props.name

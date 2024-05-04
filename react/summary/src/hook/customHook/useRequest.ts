@@ -58,3 +58,30 @@ export function useRequest<R>(initialData: R, initFetchMethod: () => Promise<Htt
 
     return [data, setFetchMethod]
 }
+
+// import { useEffect, useMemo, useState } from 'react'
+
+// export function useRequest<R, T = R>(initialData: R, fetchMethod: () => Promise<HttpResponseProps<T>>, callback?:((data: R) => void) | null, filterMethod?: (data: T) => R, fetchCondition?: () => boolean) { 
+//     const [data, setData] = useState(initialData)
+//     const fetchData = useMemo(() => {
+//         return async (callCb = false) => {
+//             let res = await fetchMethod();
+//             if (!res.result) return;
+//             const data = res.data;
+//             const result = (filterMethod ? filterMethod(data) : data) as R
+//             setData(result);
+
+//             callCb && callback?.(result);
+//         }
+//     }, [fetchMethod])
+
+//     useEffect(() => {
+//         if (typeof fetchCondition === 'function') {
+//             fetchCondition() && fetchData(true)
+//         } else {
+//             fetchData(true)
+//         }
+//     }, [])
+
+//     return [data, fetchData, setData] as const
+// }

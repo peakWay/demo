@@ -11,17 +11,26 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.[tj]s[x]?$/,
                 use: {
                     loader: 'babel-loader',
                     options: {
                         plugins: ['@babel/plugin-transform-runtime'],
-                        presets: ["@babel/preset-react", '@babel/preset-env']
+                        presets: ["@babel/preset-react", '@babel/preset-env', '@babel/preset-typescript']
                     }
                 },
                 exclude: /node_modules/
             }
         ]
+    },
+    resolve: {
+        extensions: [
+            '.ts',
+            '.tsx',
+            '.js',
+            '.jsx',
+            '.json'
+        ],
     },
     plugins: [
         new HtmlWebpackPlugin({

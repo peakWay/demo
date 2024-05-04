@@ -5,13 +5,16 @@ import PropTypes from "prop-types";
 import PureChild from "./pureChild";
 import ShouldUpdate from "./shouldUpdate";
 
+let outSchool = {
+    high: '市一中'
+}
+
+
 class Pure extends Component { 
     state = {
         name: '怪老头',
         age: 0,
-        school: {
-            high: '市一中'
-        }
+        school: outSchool
     }
 
     tag = <span>children</span>
@@ -25,6 +28,12 @@ class Pure extends Component {
     changeName = () => {
         this.setState({
             name: '费涛'
+        })
+    }
+
+    changeSchool = () => {
+        this.setState({
+            school: outSchool
         })
     }
 
@@ -48,16 +57,17 @@ class Pure extends Component {
                 {/* <PureChild name={ name } school={ school }><span>children</span></PureChild> */}
 
                 {/* props中的标签由于是不变的，那么通过实例属性来保存，则children每次渲染是不变的 */}
-                <PureChild name={ name } school={ school }>{ this.tag }</PureChild>
+                {/* <PureChild name={ name } school={ school }>{ this.tag }</PureChild> */}
 
                 {/* props中的children属性渲染的纯文本是相通的,不会重新渲染 */}
-                {/* <PureChild name={ name } school={ school }>children</PureChild> */}
+                <PureChild name={ name } school={ school }>children</PureChild>
 
                 <h3>ShouldComponentUpdate</h3>
                 <ShouldUpdate name={ name } school={ school }>{ this.tag }</ShouldUpdate>
                 
                 <button onClick={ this.changeAge }>改变年龄</button>
                 <button onClick={ this.changeName }>改变姓名</button>
+                <button onClick={ this.changeSchool }>改变相同属性的学校</button>
 
             </div>
         )

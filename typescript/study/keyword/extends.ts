@@ -92,3 +92,4 @@ type FuncExtendsFunc = AnyFunc extends AnyFunc1 ? true : false
 type numberSExtendsObj = 23 extends {} ? true : false
 type neverSExtendsObj = unknown extends {} ? true : false
 type anySExtendsObj = any extends {} ? true : false
+type ObjSExtendsObj = {} extends {} ? true : false

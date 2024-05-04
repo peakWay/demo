@@ -7,6 +7,6 @@ console.log(React.version, '外部react版本')
 // console.log(createReactButton())
 
 // import TsTypeDemo from "ts-type-demo";
-import App from './src/app';
+import App from './src/app.tsx';
 console.log(React.isValidElement(<React.Fragment>323</React.Fragment>), 11212);
 ReactDOM.render(<App/>, document.getElementById('app'))
