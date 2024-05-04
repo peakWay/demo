@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script defer src="main.js"></script></head>
+<body>
+    <div class="mainapp">
+        <div class="mainapp-main">
+          <!-- 菜单&header -->
+          <div class="mainapp-header">
+            <div class="mainapp-menu">
+              <div onclick="handleClick()">
+                <img
+                  src="https://alexwjj.github.io/img/logo.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+              <div onclick="handleClick(event)">vue</div>
+              <div onclick="handleClick(event)">vue3</div>
+              <div onclick="handleClick(event)">react</div>
+            </div>
+          </div>
+          <!-- 子应用  -->
+          <main id="subapp-container"></main>
+        </div>
+      </div>
+  
+      <script>
+        function handleClick(e) {
+          if (e) {
+            const menuMap = {
+              vue: 1,
+              vue3: 2,
+              react: 3,
+            };
+            const index = menuMap[e.target.textContent];
+            setActiveMenu(index);
+            push("/" + e.target.textContent);
+          } else {
+            push("/vue");
+            setActiveMenu(1)
+          }
+        }
+        function setActiveMenu(index) {
+          let menuNodeList = document.querySelectorAll(".mainapp-menu div");
+          for (let i = 0; i < menuNodeList.length; i++) {
+            menuNodeList[i].className = "";
+          }
+          menuNodeList[index].className = "active";
+        }
+        setActiveMenu(1)
+        function push(subapp) {
+          history.pushState(null, subapp, subapp);
+        }
+      </script>
+</body>
+</html>
